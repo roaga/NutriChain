@@ -2,11 +2,18 @@ import React from 'react'
 import {View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, Modal, Linking} from 'react-native'
 import * as firebase from 'firebase'
 
-export default class HomeScreen extends React.Component {
+import styles from "../Styles"
+import {colors} from "../Styles"
+
+export default class IndivHome extends React.Component {
     state = {
         loading: true,
         email: "",
         displayName: "",
+    }
+
+    componentDidMount(){
+        this.setState({loading: false});
     }
 
     signOutUser = () => {
@@ -17,7 +24,7 @@ export default class HomeScreen extends React.Component {
         if(this.state.loading){
             return (
                 <View style={[styles.container, {justifyContent: "center", alignItems: "center"}]}>
-                    <ActivityIndicator size="large" color="blue" />
+                    <ActivityIndicator size="large" color={colors.primary} />
                 </View>
             )
         }
@@ -28,9 +35,3 @@ export default class HomeScreen extends React.Component {
         )
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-})

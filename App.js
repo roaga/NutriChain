@@ -58,8 +58,8 @@ export default createAppContainer(
     createSwitchNavigator(
         {
             Loading: LoadingScreen,
-            IndivHome: IndivStack,
-            BankHome: BankStack,
+            Indiv: IndivStack,
+            Bank: BankStack,
             Auth: AuthStack
         },
         {

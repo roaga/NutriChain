@@ -8,7 +8,7 @@ export default class LoadingScreen extends React.Component {
         firebase.auth().onAuthStateChanged(user => {
             //TODO: redirect to BankStack if this user is a food bank account
             if(user && user.emailVerified){
-                this.props.navigation.navigate("IndivStack");
+                this.props.navigation.navigate("Indiv");
             } else {
                 this.props.navigation.navigate("Auth");
             }

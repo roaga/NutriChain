@@ -27,7 +27,8 @@ export default class RegisterScreen extends React.Component {
                 }.bind(this));
                 firebase.firestore().collection('users').doc(this.state.email).set({
                     address: this.state.address,
-                    isFoodBank: this.state.isFoodBank
+                    isFoodBank: this.state.isFoodBank,
+                    name: this.state.name
                     // Add other variables here
                     
                 });
