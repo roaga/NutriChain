@@ -34,15 +34,19 @@ class IndivOrderCard extends React.Component {
                 const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
 
                 orderref.get().then(function(doc) {
-                    
                     if (doc.exists) {
-                        
                         if (doc.data().from == firebase.auth().currentUser.email) { 
-                            console.log("Test");// if the user who ordered picks it up
+                            let currentIndex = doc.data().currentIndex;
                             firebase.firestore().collection("archives").add(doc.data()); // add data to archives
                             orderref.delete(); // delete data from requests
-                            points = 100 / (currentIndex + 1) + points;
-                            firebase.firestore().collection("users").doc(uemail).update({points: points});
+                            firebase.firestore().collection('users').doc(firebase.auth().currentUser.email).get().then(function(doc) {
+                                if (doc.exists) {
+                                    let points = doc.data().points;
+                                    console.log(points);
+                                    points = 100 / (currentIndex + 1) + points;
+                                    firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).update({points: points});
+                                }
+                            });
                         }
                     }
                 });
