@@ -58,7 +58,7 @@ export default class LoginScreen extends React.Component {
                 </View>
 
                 <TouchableOpacity style={styles.button} onPress={this.handleLogin}>
-                    <Text style={{color: "#FFF", fontWeight: "700", fontSize: 18}}>Sign in</Text>
+                    <Text style={styles.buttonText}>Sign in</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={{alignSelf: "center", marginTop: 32}} onPress={() => {

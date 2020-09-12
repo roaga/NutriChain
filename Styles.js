@@ -5,8 +5,13 @@ export default styles = StyleSheet.create({
         flex: 1,
     },
     greeting: {
-        marginTop: 96,
+        marginTop: 48,
         fontSize: 24,
+        fontWeight: "700",
+        textAlign: "center"
+    },
+    subtitle: {
+        fontSize: 22,
         fontWeight: "700",
         textAlign: "center"
     },
@@ -51,6 +56,18 @@ export default styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",        
     },
+    buttonText: {
+        color: "#FFF", 
+        fontWeight: "700", 
+        fontSize: 18
+    },
+    card: {
+        borderRadius: 10,
+        backgroundColor: "#fff",
+        padding: 16,
+        marginTop: 16,
+        height: 150
+    }
 })
 
 export const colors = {
