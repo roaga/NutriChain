@@ -31,7 +31,7 @@ class IndivPickupCard extends React.Component {
                 orderref.update({currentIndex: newIndex});
                 if(currentIndex != 0){
                     firebase.firestore().collection('users').doc(hEmail).get().then(function(d){
-                        let newPoints = points +  100 / (stops)
+                        let newPoints = d.data().points +  100 / (stops);
                         firebase.firestore().collection('users').doc(hEmail).update({points: newPoints});
                     })
                 }
