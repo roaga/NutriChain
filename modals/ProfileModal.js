@@ -9,25 +9,45 @@ import {colors} from "../Styles"
 class IndivPickupCard extends React.Component {
     state = {
         readyForPickUp: false,
+        holderAddress: "",
+        holderEmail: "",
+        holderName: "",
+        courierEmail: "",
+        courierName: "",
+        courierAddress: ""
     }
 
     markReady = () => {
         this.setState({readyForPickUp: !this.state.readyForPickUp});
     }
-
+    componentDidMount(){
+        const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
+        orderref.get().then(function(doc){
+            let holder = doc.data().chain[doc.data().currentIndex];
+            if(doc.data().chain.length>1){
+                let courier = doc.data().chain[doc.data().currentIndex + 1];
+                this.setState({courierEmail: courier.email});
+                this.setState({courierName: courier.name});
+                this.setState({courierAddress: courier.address});
+            }
+            this.setState({holderEmail: holder.email});
+            this.setState({holderName: holder.name});
+            this.setState({holderAddress: holder.address});        
+       }.bind(this))
+    }
     render () {
-        let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
+        /*let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
         let holderName = this.props.order.chain[this.props.order.chain.length - 1].name;
         let holderAddress = this.props.order.chain[this.props.order.chain.length - 1].address;
         let courierEmail = this.props.order.chain.length > 1 ? this.props.order.chain[1].email : "Searching...";
         let courierName = this.props.order.chain.length > 1 ? this.props.order.chain[1].name : "Searching...";
         let courierAddress = this.props.order.chain.length > 1 ? this.props.order.chain[1].address : "Searching...";
-
+        */
         return (
             <View style={styles.card}>
-                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>Courier: {courierName}</Text>
-                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>Holder: {holderName}</Text>
-                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{holderAddress}</Text>
+                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>Courier: {this.state.courierName}</Text>
+                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>Holder: {this.state.holderName}</Text>
+                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.state.holderAddress}</Text>
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
                     <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>I've picked up the order</Text>
@@ -43,23 +63,43 @@ class IndivPickupCard extends React.Component {
 class IndivOrderCard extends React.Component {
     state = {
         readyForPickUp: false,
-        chainEnded: false
+        chainEnded: false,
+        holderAddress: "",
+        holderEmail: "",
+        holderName: "",
+        courierEmail: "",
+        courierName: "",
+        courierAddress: ""
     }
 
     endChain = () => {
         this.setState({chainEnded: !this.state.chainEnded});
 
     }
-
+    componentDidMount(){
+        const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
+        orderref.get().then(function(doc){
+            let holder = doc.data().chain[doc.data().currentIndex];
+            if(doc.data().chain.length>1){
+                let courier = doc.data().chain[doc.data().currentIndex + 1];
+                this.setState({courierEmail: courier.email});
+                this.setState({courierName: courier.name});
+                this.setState({courierAddress: courier.address});
+            }
+            this.setState({holderEmail: holder.email});
+            this.setState({holderName: holder.name});
+            this.setState({holderAddress: holder.address});        
+       }.bind(this))
+    }
     render () {
-        let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
+        /*let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
         let holderName = this.props.order.chain[this.props.order.chain.length - 1].name;
         let holderAddress = this.props.order.chain[this.props.order.chain.length - 1].address;
-
+        */
         return (
             <View style={styles.card}>
-                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{holderAddress}</Text>
-                <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Holder: {holderName}</Text>
+                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.state.holderAddress}</Text>
+                <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Holder: {this.state.holderName}</Text>
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
                     <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>This is close enough for me</Text>

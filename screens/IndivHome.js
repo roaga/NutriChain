@@ -35,10 +35,11 @@ class IndivOrderCard extends React.Component {
 
                 firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function(doc) {
                     if (doc.exists) {
-                        let uname = doc.data().name;
+                        let uname = doc.data().Name;
+                        console.log(doc.data().name);
                         let uaddress = doc.data().address;
                         let uemail = firebase.auth().currentUser.email;
-                        let points = doc.data().points;
+                        //let points = doc.data().points;
                         orderref.get().then(function(doc){
                             if(doc.exists){
                                 let uchain = doc.data().chain;
@@ -48,15 +49,19 @@ class IndivOrderCard extends React.Component {
                                     email: uemail,
                                     address: uaddress
                                 })
-                                // let newindex = doc.data().currentIndex + 1;
-                                orderref.update({chain: uchain, currentIndex: currentIndex});
+                                console.log(uchain)
+                                console.log(currentIndex)
 
+                                let newindex = doc.data().currentIndex + 1;
+                                orderref.update({chain: uchain, currentIndex: currentIndex});
                                 if (uname == firebase.auth().currentUser.email) { // if the user who ordered picks it up
                                     firebase.firestore().collection("archives").add(doc.data()); // add data to archives
                                     orderref.delete(); // delete data from requests
                                     points = 100 / (currentIndex + 1) + points;
                                     firebase.firestore().collection("users").doc(uemail).update({points: points});
                                 }
+        
+                                
                             }
                         })
                     }
