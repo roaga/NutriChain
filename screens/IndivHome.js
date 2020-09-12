@@ -125,9 +125,9 @@ export default class IndivHome extends React.Component {
         coords: []
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         this.setState({email: firebase.auth().currentUser.email});
-        firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function (doc) {
+        await firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function (doc) {
             if (doc.exists) {
                 let coords = doc.data().coords;
                 this.setState({coords: coords});
@@ -135,6 +135,7 @@ export default class IndivHome extends React.Component {
                 this.setState({address: address});
             }
         }.bind(this));
+
         firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
             let requests = [];
             snapshot.forEach(function (doc) {
