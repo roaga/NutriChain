@@ -32,9 +32,29 @@ class IndivOrderCard extends React.Component {
 
                 //add to chain
                 const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
-
-                orderref.get().then(function(doc) {
+                let uemail = firebase.auth().currentUser.email;
+                console.log(uemail);
+                firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function(doc) {
                     if (doc.exists) {
+                        let uname = doc.data().name;
+                        let uaddress = doc.data().address;
+                        let uemail = firebase.auth().currentUser.email;
+                        //let points = doc.data().points;
+                        orderref.get().then(function(doc){
+                            if(doc.exists){
+                                let uchain = doc.data().chain;
+                                let currentIndex = doc.data().currentIndex;
+                                uchain.push({
+                                    name: uname,
+                                    email: uemail,
+                                    address: uaddress
+                                });
+                                // let newindex = doc.data().currentIndex + 1;
+                                orderref.update({chain: uchain, currentIndex: currentIndex});
+                                
+                                
+                            }
+                        });
                         if (doc.data().from == firebase.auth().currentUser.email) { 
                             let currentIndex = doc.data().currentIndex;
                             firebase.firestore().collection("archives").add(doc.data()); // add data to archives
@@ -63,7 +83,7 @@ class IndivOrderCard extends React.Component {
         const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
         orderref.onSnapshot(function(doc){
             if (doc.exists && doc.data() != undefined) {
-                let holder = doc.data().chain[doc.data().chain.length - 1];
+                let holder = doc.data().chain[doc.data().currentIndex];
                 this.setState({holderEmail: holder.email});
                 this.setState({holderName: holder.name});
                 this.setState({holderAddress: holder.address});    
