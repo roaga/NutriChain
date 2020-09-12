@@ -63,7 +63,7 @@ class IndivOrderCard extends React.Component {
         const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
         orderref.onSnapshot(function(doc){
             if (doc.exists && doc.data() != undefined) {
-                let holder = doc.data().chain[doc.data().currentIndex];
+                let holder = doc.data().chain[doc.data().chain.length - 1];
                 this.setState({holderEmail: holder.email});
                 this.setState({holderName: holder.name});
                 this.setState({holderAddress: holder.address});    
