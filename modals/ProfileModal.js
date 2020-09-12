@@ -39,7 +39,7 @@ class IndivPickupCard extends React.Component {
             }
         })
     }
-    
+
     componentDidMount(){
         const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
         orderref.get().then(function(doc){
