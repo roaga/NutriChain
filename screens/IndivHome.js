@@ -30,19 +30,20 @@ class IndivOrderCard extends React.Component {
                 const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
                 firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function(doc) {
                     if (doc.exists) {
-                        uname = doc.data().Name;
-                        uaddress = doc.data().address;
-                        uemail = firebase.auth().currentUser.email;
+                        let uname = doc.data().name;
+                        let uaddress = doc.data().address;
+                        let uemail = firebase.auth().currentUser.email;
                         orderref.get().then(function(doc){
                             if(doc.exists){
-                                let uchain = doc.data().chain
+                                let uchain = doc.data().chain;
+                                let currentIndex = doc.data().currentIndex;
                                 uchain.push({
                                     name: uname,
                                     email: uemail,
                                     address: uaddress
                                 })
                                 // let newindex = doc.data().currentIndex + 1;
-                                orderref.update({chain: uchain, currentIndex: newindex})
+                                orderref.update({chain: uchain, currentIndex: currentIndex})
                             }
                         })
                     }
