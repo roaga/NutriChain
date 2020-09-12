@@ -66,7 +66,7 @@ class BankCard extends React.Component {
 export default class SelectBankModal extends React.Component {
     state = {
         banks: [
-            {id: "y392rph3wui", name: "Centennial Olympic Park", address: "Centennial Olympic Park Bank", bundles: ["Vegetarian", "Regular"], coords: [{latitude: 33.7636791, longitude: 84.391206}]}
+            {id: "y392rph3wui", name: "Centennial Olympic Park Bank", address: "325 Centennial Park Dr NW", bundles: ["Vegetarian", "Regular"], coords: [{latitude: 33.7636791, longitude: 84.391206}]}
         ]
     }
 
