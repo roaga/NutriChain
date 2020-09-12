@@ -10,7 +10,7 @@ export default class LoadingScreen extends React.Component {
 
             if(user && user.emailVerified){
                 this.props.navigation.navigate("Bank");
-            } if(user && user.emailVerified) {
+            } else if(user && user.emailVerified) {
                 isFoodBank(user); // gets the data if user is foodbank or not
                 this.props.navigation.navigate("Indiv");
             } else {
@@ -18,6 +18,7 @@ export default class LoadingScreen extends React.Component {
             }
         });
     }
+    
 
     render(){
         return(
