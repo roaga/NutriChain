@@ -45,22 +45,24 @@ class IndivPickupCard extends React.Component {
     componentDidMount(){
         const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
         orderref.onSnapshot(function(doc){
-            let holder = doc.data().chain[doc.data().currentIndex];
-            if(doc.data().chain.length>1){
-                if(doc.data().currentIndex < doc.data().chain.length - 1){
-                    let courier = doc.data().chain[doc.data().currentIndex + 1];
-                    this.setState({courierEmail: courier.email});
-                    this.setState({courierName: courier.name});
-                    this.setState({courierAddress: courier.address});
-                } else {
-                    this.setState({courierEmail: "Searching..."});
-                    this.setState({courierName: "Searching..."});
-                    this.setState({courierAddress: "Searching..."});
+            if(doc.exists){
+                let holder = doc.data().chain[doc.data().currentIndex];
+                if(doc.data().chain.length>1){
+                    if(doc.data().currentIndex < doc.data().chain.length - 1){
+                        let courier = doc.data().chain[doc.data().currentIndex + 1];
+                        this.setState({courierEmail: courier.email});
+                        this.setState({courierName: courier.name});
+                        this.setState({courierAddress: courier.address});
+                    } else {
+                        this.setState({courierEmail: "Searching..."});
+                        this.setState({courierName: "Searching..."});
+                        this.setState({courierAddress: "Searching..."});
+                    }
                 }
-            }
-            this.setState({holderEmail: holder.email});
-            this.setState({holderName: holder.name});
-            this.setState({holderAddress: holder.address});        
+                this.setState({holderEmail: holder.email});
+                this.setState({holderName: holder.name});
+                this.setState({holderAddress: holder.address});   
+            }     
        }.bind(this))
     }
     render () {
@@ -107,22 +109,24 @@ class IndivOrderCard extends React.Component {
     componentDidMount(){
         const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
         orderref.onSnapshot(function(doc){
-            let holder = doc.data().chain[doc.data().currentIndex];
-            if(doc.data().chain.length>1){
-                if(doc.data().currentIndex < doc.data().chain.length - 1){
-                    let courier = doc.data().chain[doc.data().currentIndex + 1];
-                    this.setState({courierEmail: courier.email});
-                    this.setState({courierName: courier.name});
-                    this.setState({courierAddress: courier.address});
-                } else {
-                    this.setState({courierEmail: "Searching..."});
-                    this.setState({courierName: "Searching..."});
-                    this.setState({courierAddress: "Searching..."});
+            if(doc.exists){
+                let holder = doc.data().chain[doc.data().currentIndex];
+                if(doc.data().chain.length>1){
+                    if(doc.data().currentIndex < doc.data().chain.length - 1){
+                        let courier = doc.data().chain[doc.data().currentIndex + 1];
+                        this.setState({courierEmail: courier.email});
+                        this.setState({courierName: courier.name});
+                        this.setState({courierAddress: courier.address});
+                    } else {
+                        this.setState({courierEmail: "Searching..."});
+                        this.setState({courierName: "Searching..."});
+                        this.setState({courierAddress: "Searching..."});
+                    }
                 }
-            }
-            this.setState({holderEmail: holder.email});
-            this.setState({holderName: holder.name});
-            this.setState({holderAddress: holder.address});        
+                this.setState({holderEmail: holder.email});
+                this.setState({holderName: holder.name});
+                this.setState({holderAddress: holder.address});    
+            }    
        }.bind(this))
     }
     render () {
@@ -169,11 +173,10 @@ export default class ProfileModal extends React.Component {
                 let orders = [];
                 let pickups = [];
                 snapshot.forEach(function (doc) {
-                    // if(doc.data().from == email) {
-                    //     orders.push({...doc.data(), ...{id: doc.id}});
-                    // } else 
-                    if ((doc.data().from == email || doc.data().chain.filter(obj => obj.email == email).length > 0) && (doc.data().chain.map(item => item.email).indexOf(email) >= doc.data().currentIndex || doc.data().chain.map(item => item.email).indexOf(email) < 0)){
-                        pickups.push({...doc.data(), ...{id: doc.id}});
+                    if(doc.exists){
+                        if ((doc.data().from == email || doc.data().chain.filter(obj => obj.email == email).length > 0) && (doc.data().chain.map(item => item.email).indexOf(email) >= doc.data().currentIndex || doc.data().chain.map(item => item.email).indexOf(email) < 0)){
+                            pickups.push({...doc.data(), ...{id: doc.id}});
+                        }
                     }
                 });
                 this.setState({orders: orders});
