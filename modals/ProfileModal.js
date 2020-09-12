@@ -26,8 +26,8 @@ class IndivPickupCard extends React.Component {
         return (
             <View style={styles.card}>
                 <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>Courier: {courierName}</Text>
-                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>Holder: {holderName}</Text>
-                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{holderAddress}</Text>
+                <Text style={[styles.subtitle, {alignSelf: "flex-start", fontSize: 16}]}>Holder: {holderName}</Text>
+                <Text style={[styles.subtitle, {alignSelf: "flex-start", fontSize: 16}]}>{holderAddress}</Text>
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
                     <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>I've picked up the order</Text>
@@ -46,10 +46,10 @@ class IndivOrderCard extends React.Component {
         chainEnded: false
     }
 
-    endChain = () => {
-        this.setState({chainEnded: !this.state.chainEnded});
+    // endChain = () => {
+    //     this.setState({chainEnded: !this.state.chainEnded});
 
-    }
+    // }
 
     render () {
         let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
@@ -62,10 +62,10 @@ class IndivOrderCard extends React.Component {
                 <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Holder: {holderName}</Text>
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
-                    <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>This is close enough for me</Text>
-                    <TouchableOpacity onPress={() => this.endChain()}>
+                    <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>Pick up your order from your dashboard when it's close.</Text>
+                    {/* <TouchableOpacity onPress={() => this.endChain()}>
                         <Ionicons name={this.state.chainEnded ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </View>
         );

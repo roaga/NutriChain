@@ -55,6 +55,7 @@ export default class OrderModal extends React.Component {
                         chain: [{name: this.props.bank.name,
                             email: "atlfoodbank@gmail.com",
                             address: this.props.bank.address,
+                            coords: this.props.bank.coords
                         }],
                         from: firebase.auth().currentUser.email,
                         isChainComplete: false, 
