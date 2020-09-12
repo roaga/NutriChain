@@ -87,7 +87,6 @@ export default class ProfileModal extends React.Component {
                 if (doc.exists) {
                     let name = doc.data().name;
                     let address = doc.data().address;
-                    console.log(name + " " + address);
                     this.setState({name: name});
                     this.setState({address: address});
                 }

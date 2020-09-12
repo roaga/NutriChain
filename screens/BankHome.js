@@ -28,10 +28,10 @@ class BankOrderCard extends React.Component {
                     <TouchableOpacity onPress={() => this.setState({prepared: !this.state.prepared})}>
                         <Ionicons name={this.state.prepared ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
                     </TouchableOpacity>
-                    <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>Picked Up</Text>
+                    {/* <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>Picked Up</Text>
                     <TouchableOpacity onPress={() => this.setState({pickedUp: !this.state.pickedUp})}>
                         <Ionicons name={this.state.pickedUp ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </View>
         );

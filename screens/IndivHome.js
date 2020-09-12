@@ -41,7 +41,7 @@ class IndivOrderCard extends React.Component {
                                     email: uemail,
                                     address: uaddress
                                 })
-                                let newindex = doc.data().currentIndex + 1;
+                                // let newindex = doc.data().currentIndex + 1;
                                 orderref.update({chain: uchain, currentIndex: newindex})
                             }
                         })
