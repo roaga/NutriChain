@@ -1,15 +1,12 @@
 import {createAppContainer, createSwitchNavigator} from 'react-navigation'
 import {createStackNavigator} from 'react-navigation-stack'
 import * as firebase from 'firebase'
-import {YellowBox} from 'react-native'
 
 import LoadingScreen from './screens/LoadingScreen'
 import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen'
 import BankHome from "./screens/BankHome"
 import IndivHome from "./screens/IndivHome"
-
-// YellowBox.ignoreWarnings([""]);
 
 var firebaseConfig = {
     apiKey: "AIzaSyBhwBgLL4mOczXnNzHYOhiDzbQC7Aaw8wU",

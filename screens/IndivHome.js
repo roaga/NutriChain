@@ -139,9 +139,6 @@ export default class IndivHome extends React.Component {
                     }
                 }
             }.bind(this));
-            requests.sort((a, b) => {
-                return a.chain.length >= b.chain.length ? -1 : 1;
-            })
             this.setState({orders: requests});
         }.bind(this));
         
@@ -184,7 +181,7 @@ export default class IndivHome extends React.Component {
 
         return(
             <View style={styles.container}>
-                <Text style={[styles.greeting, {color: colors.primary}]}>NutriChain</Text>
+                <Text style={styles.greeting}>App Name</Text>
 
                 <TouchableOpacity style={[styles.button, {marginTop: 32}]} onPress={() => this.toggleProfileModal()}>
                     <Text style={styles.buttonText}>Your Info {'>'}</Text>

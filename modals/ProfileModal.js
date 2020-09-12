@@ -41,7 +41,6 @@ class IndivPickupCard extends React.Component {
                 }
             }
         });
-        //Add points to previous person in chain
     }
 
     componentDidMount(){

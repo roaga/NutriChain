@@ -86,7 +86,7 @@ export default class BankHome extends React.Component {
         }
         return(
             <View style={styles.container}>
-                <Text style={[styles.greeting, {color: colors.primary}]}>NutriChain</Text>
+                <Text style={styles.greeting}>App Name</Text>
 
                 <TouchableOpacity style={[styles.button, {marginVertical: 32}]} onPress={() => this.toggleProfileModal()}>
                     <Text style={styles.buttonText}>Food Bank Info {'>'}</Text>
