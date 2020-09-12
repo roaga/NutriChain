@@ -41,6 +41,11 @@ class IndivOrderCard extends React.Component {
         readyForPickUp: false,
     }
 
+    endChain = () => {
+        this.setState({chainEnded: !this.state.chainEnded});
+        
+    }
+
     render () {
         let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
         let holderName = this.props.order.chain[this.props.order.chain.length - 1].name;
@@ -53,7 +58,7 @@ class IndivOrderCard extends React.Component {
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
                     <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>This is close enough for me</Text>
-                    <TouchableOpacity onPress={() => this.setState({chainEnded: !this.state.chainEnded})}>
+                    <TouchableOpacity onPress={() => this.endChain()}>
                         <Ionicons name={this.state.chainEnded ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
                     </TouchableOpacity>
                 </View>
