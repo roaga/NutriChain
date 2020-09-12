@@ -39,6 +39,13 @@ class MealCard extends React.Component {
     }
 
     placeOrder = (meal) => {
+
+
+        let uaddress = this.props.address;
+        let ubank = this.props.bank.name;
+        let ubankaddress = this.props.bank.address;
+
+        let props = this.props;
         
         firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function(doc) {
             if (doc.exists) {
@@ -56,12 +63,11 @@ class MealCard extends React.Component {
                           { text: "OK", onPress: () => {
                                 //Place Order
                                 let uemail = firebase.auth().currentUser.email;
-                                let uaddress = this.props.address;
-                              
+
                                 firebase.firestore().collection('requests').add({
-                                    chain: [{name: this.props.bank.name,
+                                    chain: [{name: ubank,
                                         email: "atlfoodbank@gmail.com",
-                                        address: this.props.bank.address,
+                                        address: ubankaddress,
                                     }],
                                     from: firebase.auth().currentUser.email,
                                     fromAddress: uaddress,
@@ -78,8 +84,8 @@ class MealCard extends React.Component {
                                     }
                                 });
             
-                                this.props.closeModal();
-                                this.props.closeOld();
+                                props.closeModal();
+                                props.closeOld();
                           }}
                         ],
                         { cancelable: false }
