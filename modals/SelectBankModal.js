@@ -12,6 +12,20 @@ class BankCard extends React.Component {
         orderModalVisible: false
     }
     
+    componentDidMount(){
+        console.log("hello");
+        firebase.firestore().collection("users").onSnapshot(function(snapshot) {
+            snapshot.forEach(function (doc) {
+                console.log(doc.data());
+                if (doc.data()["isFoodBank"]) {
+                    // populate list with data
+                    let foodbank = doc.data();
+                    console.log(foodbank);
+                }
+            });
+        });
+    }
+
     toggleOrderModal = () => {
         this.setState({orderModalVisible: !this.state.orderModalVisible});
     }
