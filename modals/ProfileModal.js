@@ -19,8 +19,12 @@ class IndivPickupCard extends React.Component {
 
     markReady = () => {
         this.setState({readyForPickUp: !this.state.readyForPickUp});
+
+        //Update currentIndex
+
+        //Add points to previous person in chain
     }
-    
+
     componentDidMount(){
         const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
         orderref.get().then(function(doc){

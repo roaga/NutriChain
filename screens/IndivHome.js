@@ -139,6 +139,9 @@ export default class IndivHome extends React.Component {
                     }
                 }
             }.bind(this));
+            requests.sort((a, b) => {
+                return a.chain.length >= b.chain.length ? -1 : 1;
+            })
             this.setState({orders: requests});
         }.bind(this));
         
