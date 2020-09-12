@@ -126,7 +126,8 @@ export default class ProfileModal extends React.Component {
         orders: [],
         pickups: [],
         name: "",
-        address: ""
+        address: "",
+        points: 0
     }
 
     componentDidMount () {
@@ -138,6 +139,7 @@ export default class ProfileModal extends React.Component {
                     let address = doc.data().address;
                     this.setState({name: name});
                     this.setState({address: address});
+                    this.setState({points: doc.data().points})
                 }
             }.bind(this));
 
@@ -154,6 +156,7 @@ export default class ProfileModal extends React.Component {
                 this.setState({orders: orders});
                 this.setState({pickups: pickups})
             }.bind(this));
+
         }
     }
 
