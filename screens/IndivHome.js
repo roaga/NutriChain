@@ -35,6 +35,7 @@ class IndivOrderCard extends React.Component {
 
                 firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function(doc) {
                     if (doc.exists) {
+                        console.log("Test");
                         let uname = doc.data().name;
                         let uaddress = doc.data().address;
                         let uemail = firebase.auth().currentUser.email;
@@ -47,22 +48,25 @@ class IndivOrderCard extends React.Component {
                                     name: uname,
                                     email: uemail,
                                     address: uaddress
-                                })
+                                });
                                 // let newindex = doc.data().currentIndex + 1;
                                 orderref.update({chain: uchain, currentIndex: currentIndex});
 
-                                if (uname == firebase.auth().currentUser.email) { // if the user who ordered picks it up
+                                console.log(doc.data().from + " == " + firebase.auth().currentUser.email);
+
+                                if (doc.data().from == firebase.auth().currentUser.email) { 
+                                    console.log("Test");// if the user who ordered picks it up
                                     firebase.firestore().collection("archives").add(doc.data()); // add data to archives
                                     orderref.delete(); // delete data from requests
                                     points = 100 / (currentIndex + 1) + points;
                                     firebase.firestore().collection("users").doc(uemail).update({points: points});
                                 }
                             }
-                        })
+                        });
                     }
                 });
                 //remove from Nearby Pickups
-                this.props.removeOrderLocally(this.props.order.id);
+                //this.props.removeOrderLocally(this.props.order.id);
               }}
             ],
             { cancelable: false }
