@@ -44,7 +44,7 @@ class BankCard extends React.Component {
 
     render () {
         return (
-            <View style={styles.card} animation="slideInUp" duration={500}>
+            <Animatable.View style={styles.card} animation="slideInUp" duration={500}>
                 <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.props.bank.name}</Text>
                 <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>{this.props.bank.address}</Text>
                 <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Meals: {this.props.bank.bundles.join(", ")}</Text>
@@ -59,7 +59,7 @@ class BankCard extends React.Component {
                 >
                     <OrderModal closeModal={() => this.toggleOrderModal()} bank={this.props.bank} closeOld={() => this.props.closeModal()} address={this.props.address} coords={this.props.coords}/>
                 </Modal>
-            </View>
+            </Animatable.View>
         );
     }
 }
