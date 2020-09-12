@@ -19,7 +19,7 @@ class BankOrderCard extends React.Component {
                 <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.props.order.bundle}</Text>
                 <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Courier: {this.props.order.courier}</Text>
 
-                <View style={{flexDirection: "row", alignSelf: "center", marginTop: 8, position: "absolute", bottom: 16}}>
+                <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
                     <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>Prepared</Text>
                     <TouchableOpacity onPress={() => this.setState({prepared: !this.state.prepared})}>
                         <Ionicons name={this.state.prepared ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
@@ -34,7 +34,7 @@ class BankOrderCard extends React.Component {
     }
 }
 
-export default class IndivHome extends React.Component {
+export default class BankHome extends React.Component {
     state = {
         loading: true,
         email: "",
