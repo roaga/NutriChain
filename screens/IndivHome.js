@@ -68,7 +68,15 @@ class IndivOrderCard extends React.Component {
             { cancelable: false }
           );
     }
-
+    componentDidMount(){
+        const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
+        orderref.get().then(function(doc){
+            let holder = doc.data().chain[doc.data().currentIndex];
+            this.setState({holderEmail: holder.email});
+            this.setState({holderName: holder.name});
+            this.setState({holderAddress: holder.address});        
+       }.bind(this))
+    }
     render () {
         /*let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
         let holderName = this.props.order.chain[this.props.order.chain.length - 1].name;
@@ -102,13 +110,6 @@ export default class IndivHome extends React.Component {
     }
 
     componentDidMount(){
-        const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
-        orderref.get().then(function(doc){
-            let holder = doc.data().chain[doc.data().currentIndex];
-            this.setState({holderEmail: holder.email});
-            this.setState({holderName: holder.name});
-            this.setState({holderAddress: holder.address});        
-       }.bind(this))
         this.setState({email: firebase.auth().currentUser.email});
         firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
             let requests = [];
@@ -119,7 +120,7 @@ export default class IndivHome extends React.Component {
             }.bind(this));
             this.setState({orders: requests});
         }.bind(this));
-
+        
         this.setState({loading: false});
     }
 
