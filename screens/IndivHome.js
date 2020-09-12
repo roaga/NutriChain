@@ -142,11 +142,11 @@ export default class IndivHome extends React.Component {
                     if((doc.data().chain.filter(item => item.email == this.state.email).length < 1 && doc.data().chain.filter(item => item.email == doc.data().from).length < 1)
                         && 
                         (
-                            (doc.data().chain[doc.data().currentIndex][0].latitude > this.state.coords[0].latitude && doc.data().fromAddress[0].latitude < this.state.coords[0].latitude ) ||
-                        (doc.data().chain[doc.data().currentIndex][0].latitude < this.state.coords[0].latitude && doc.data().fromAddress[0].latitude > this.state.coords[0].latitude )
+                            (doc.data().chain[doc.data().currentIndex].coords[0].latitude > this.state.coords[0].latitude && doc.data().fromCoords[0].latitude < this.state.coords[0].latitude ) ||
+                        (doc.data().chain[doc.data().currentIndex].coords[0].latitude < this.state.coords[0].latitude && doc.data().fromCoords[0].latitude > this.state.coords[0].latitude )
                         ) && (
-                            (doc.data().chain[doc.data().currentIndex][0].longitude > this.state.coords[0].longitude && doc.data().fromAddress[0].longitude < this.state.coords[0].longitude ) ||
-                        (doc.data().chain[doc.data().currentIndex][0].longitude < this.state.coords[0].longitude && doc.data().fromAddress[0].longitude > this.state.coords[0].longitude )
+                            (doc.data().chain[doc.data().currentIndex].coords[0].longitude > this.state.coords[0].longitude && doc.data().fromCoords[0].longitude < this.state.coords[0].longitude ) ||
+                        (doc.data().chain[doc.data().currentIndex].coords[0].longitude < this.state.coords[0].longitude && doc.data().fromCoords[0].longitude > this.state.coords[0].longitude )
                         )
                     ){
                         requests.push({...doc.data(), ...{id: doc.id}});
@@ -228,7 +228,7 @@ export default class IndivHome extends React.Component {
                     visible={this.state.selectBankModalVisible} 
                     onRequestClose={() => this.toggleSelectBankModal()}
                 >
-                    <SelectBankModal closeModal={() => this.toggleSelectBankModal()} address={this.state.address}/>
+                    <SelectBankModal closeModal={() => this.toggleSelectBankModal()} address={this.state.address} coords={this.state.coords}/>
                 </Modal>
             </View>
         )

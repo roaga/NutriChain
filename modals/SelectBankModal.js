@@ -56,7 +56,7 @@ class BankCard extends React.Component {
                     visible={this.state.orderModalVisible} 
                     onRequestClose={() => this.toggleOrderModal()}
                 >
-                    <OrderModal closeModal={() => this.toggleOrderModal()} bank={this.props.bank} closeOld={() => this.props.closeModal()} address={this.props.address}/>
+                    <OrderModal closeModal={() => this.toggleOrderModal()} bank={this.props.bank} closeOld={() => this.props.closeModal()} address={this.props.address} coords={this.props.coords}/>
                 </Modal>
             </View>
         );
@@ -72,7 +72,7 @@ export default class SelectBankModal extends React.Component {
 
     renderCard = (bank) => {
         return (
-            <BankCard bank={bank} closeModal={() => this.props.closeModal()} address={this.props.address}/>
+            <BankCard bank={bank} closeModal={() => this.props.closeModal()} address={this.props.address} coords={this.props.coords}/>
         );
     }
 
