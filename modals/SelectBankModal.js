@@ -16,6 +16,17 @@ class BankCard extends React.Component {
         this.setState({orderModalVisible: !this.state.orderModalVisible});
     }
 
+    componentDidMount(){
+        firebase.firestore().collection("users").onSnapshot(function (snapshot) {
+            snapshot.forEach(function (doc) {
+                if (doc.data().isFoodBank) {
+                    // populate list
+                    let foodbank = doc.data();
+                }
+            });
+        });
+    }
+
     render () {
         return (
             <View style={styles.card}>
