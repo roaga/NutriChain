@@ -119,7 +119,7 @@ class MealCard extends React.Component {
                     <Ionicons name="md-close" size={32} color="#000000"/>
                 </TouchableOpacity>
 
-                <Text style={styles.greeting}>Choose a Meal</Text>
+                <Text style={[styles.greeting, {borderBottomWidth: 4, borderRadius: 10, paddingBottom: 16, borderColor: colors.primary, fontWeight: "700"}]}>Choose a Meal</Text>
 
                 <FlatList
                     data={this.state.meals}

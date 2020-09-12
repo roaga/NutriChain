@@ -84,7 +84,7 @@ export default class SelectBankModal extends React.Component {
                     <Ionicons name="md-close" size={32} color="#000000"/>
                 </TouchableOpacity>
 
-                <Text style={styles.greeting}>Choose a Food Bank</Text>
+                <Text style={[styles.greeting, {borderBottomWidth: 4, borderRadius: 10, paddingBottom: 16, borderColor: colors.primary, fontWeight: "700"}]}>Choose a Food Bank</Text>
 
                 <FlatList
                     data={this.state.banks}
