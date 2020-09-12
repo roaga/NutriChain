@@ -19,7 +19,7 @@ class MealCard extends React.Component {
         return (
             <View style={styles.card}>
                 <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.props.meal}</Text>
-                <TouchableOpacity style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16, right: 16}} onPress={() => this.props.placeOrder()}>
+                <TouchableOpacity style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16, right: 16}} onPress={() => this.props.placeOrder(this.props.meal)}>
                     <Text style={{color: colors.primary}}>Order {'>'}</Text>
                 </TouchableOpacity>
             </View>
@@ -34,12 +34,31 @@ export default class OrderModal extends React.Component {
 
     renderCard = (meal) => {
         return (
-            <MealCard meal={meal} placeOrder={() => this.placeOrder()}/>
+            <MealCard meal={meal} placeOrder={() => this.placeOrder(meal)}/>
         );
     }
 
-    placeOrder = () => {
+    placeOrder = (meal) => {
         //Place Order
+        let uemail = firebase.auth().currentUser.email;
+        firebase.firestore().collection("users").doc(uemail).get().then(function(doc) {
+            if (doc.exists) {
+                 let uname = doc.data().Name;
+                 let uaddress = doc.data().address;
+                    console.log(uname + uaddress);
+                 firebase.firestore().collection('requests').add({
+                    chain: [{name: uname,
+                        email: uemail,
+                        address: uaddress,
+                    }],
+                    from: uemail,
+                    isChainComplete: false, 
+                    isOrderProcessed: false,
+                    mealPlan: meal
+                })
+            } 
+        })
+
         this.props.closeModal();
         this.props.closeOld();
     }
