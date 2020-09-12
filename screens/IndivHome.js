@@ -9,8 +9,12 @@ import ProfileModal from "../modals/ProfileModal"
 import SelectBankModal from '../modals/SelectBankModal'
 
 class IndivOrderCard extends React.Component {
+
     state = {
         pickedUp: false,
+        holderAddress: "",
+        holderEmail: "",
+        holderName: ""
     }
 
     addToChain = () => {
@@ -59,31 +63,30 @@ class IndivOrderCard extends React.Component {
     render () {
         const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
         orderref.get().then(function(doc){
-            if (doc.exists) {
-                let holder = doc.data().chain[doc.data().currentIndex];
-                let holderEmail = holder.email;
-                let holderName = holder.name;
-                let holderAddress = holder.address;
-            }
-        })
+            let holder = doc.data().chain[doc.data().currentIndex];
+            console.log(holder.address);
+            this.setState({holderEmail: holder.email});
+            this.setState({holderName: holder.name});
+            this.setState({holderAddress: holder.address});                
+        }.bind(this))
         /*let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
         let holderName = this.props.order.chain[this.props.order.chain.length - 1].name;
         let holderAddress = this.props.order.chain[this.props.order.chain.length - 1].address;
         */
+       return (
+        <View style={styles.card}>
+            <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.state.holderAddress}</Text>
+            <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Holder: {this.state.holderName}</Text>
 
-        return (
-            <View style={styles.card}>
-                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{holderAddress}</Text>
-                <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Holder: {holderName}</Text>
-
-                <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
-                    <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>I'll pick this up</Text>
-                    <TouchableOpacity onPress={() => this.addToChain()}>
-                        <Ionicons name={this.state.pickedUp ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
-                    </TouchableOpacity>
-                </View>
+            <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
+                <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>I'll pick this up</Text>
+                <TouchableOpacity onPress={() => this.addToChain()}>
+                    <Ionicons name={this.state.pickedUp ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
+                </TouchableOpacity>
             </View>
-        );
+        </View>
+    );
+        
     }
 }
 
