@@ -39,46 +39,68 @@ export default class OrderModal extends React.Component {
     }
 
     placeOrder = (meal) => {
-        Alert.alert(
-            "Order Confirmation",
-            "Are you sure you would like to request this meal?",
-            [
-              {
-                text: "Cancel",
-                onPress: () => console.log("Cancel Pressed"),
-                style: "cancel"
-              },
-              { text: "OK", onPress: () => {
-                    //Place Order
-                    let uemail = firebase.auth().currentUser.email;
-                    let uaddress = this.props.address;
-                  
-                    firebase.firestore().collection('requests').add({
-                        chain: [{name: this.props.bank.name,
-                            email: "atlfoodbank@gmail.com",
-                            address: this.props.bank.address,
-                        }],
-                        from: firebase.auth().currentUser.email,
-                        fromAddress: uaddress,
-                        isChainComplete: false, 
-                        isOrderProcessed: false,
-                        mealPlan: meal,
-                        currentIndex: 0
-                    }); // this works
-
-                    firebase.firestore().collection("users").doc(uemail).get().then(function(doc) {
-                        if (doc.exists) {
-                            let points = doc.data().points;
-                            firebase.firestore().collection("users").doc(uemail).update({points: points - 50});
-                        }
-                    });
-
-                    this.props.closeModal();
-                    this.props.closeOld();
-              }}
-            ],
-            { cancelable: false }
-          );
+        
+        firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function(doc) {
+            if (doc.exists) {
+                let points = doc.data().points;
+                if (points > 50) {
+                    Alert.alert(
+                        "Order Confirmation",
+                        "Are you sure you would like to request this meal?",
+                        [
+                          {
+                            text: "Cancel",
+                            onPress: () => console.log("Cancel Pressed"),
+                            style: "cancel"
+                          },
+                          { text: "OK", onPress: () => {
+                                //Place Order
+                                let uemail = firebase.auth().currentUser.email;
+                                let uaddress = this.props.address;
+                              
+                                firebase.firestore().collection('requests').add({
+                                    chain: [{name: this.props.bank.name,
+                                        email: "atlfoodbank@gmail.com",
+                                        address: this.props.bank.address,
+                                    }],
+                                    from: firebase.auth().currentUser.email,
+                                    fromAddress: uaddress,
+                                    isChainComplete: false, 
+                                    isOrderProcessed: false,
+                                    mealPlan: meal,
+                                    currentIndex: 0
+                                }); // this works
+            
+                                firebase.firestore().collection("users").doc(uemail).get().then(function(doc) {
+                                    if (doc.exists) {
+                                        let points = doc.data().points;
+                                        firebase.firestore().collection("users").doc(uemail).update({points: points - 50});
+                                    }
+                                });
+            
+                                this.props.closeModal();
+                                this.props.closeOld();
+                          }}
+                        ],
+                        { cancelable: false }
+                      );
+                } else {
+                    Alert.alert(
+                        "Order Information",
+                        "Not enough token balance to place order. Volunteer to deliver and gain more tokens!",
+                        [
+                          {
+                            text: "Cancel",
+                            onPress: () => {},
+                            style: "cancel"
+                          },
+                          { text: "OK", onPress: () => {}}
+                        ],
+                        { cancelable: false }
+                      );
+                }
+            }
+        });
     }
 
     render(){
