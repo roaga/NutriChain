@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, Modal} from 'react-native'
+import {View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, Modal, Alert} from 'react-native'
 import * as firebase from 'firebase'
 import {Ionicons} from '@expo/vector-icons'
 
@@ -14,12 +14,26 @@ class IndivOrderCard extends React.Component {
     }
 
     addToChain = () => {
-        this.setState({pickedUp: !this.state.pickedUp});
+        Alert.alert(
+            "Pickup Confirmation",
+            "Are you sure you would like to help transport this meal?",
+            [
+              {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+              },
+              { text: "OK", onPress: () => {
+                this.setState({pickedUp: !this.state.pickedUp});
 
-        //add to chain
-
-        //remove from Nearby Pickups
-        this.props.removeOrderLocally(this.props.order.id);
+                //add to chain
+        
+                //remove from Nearby Pickups
+                this.props.removeOrderLocally(this.props.order.id);
+              }}
+            ],
+            { cancelable: false }
+          );
     }
 
     render () {
