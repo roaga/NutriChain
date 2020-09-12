@@ -39,11 +39,12 @@ class IndivPickupCard extends React.Component {
 class IndivOrderCard extends React.Component {
     state = {
         readyForPickUp: false,
+        chainEnded: false
     }
 
     endChain = () => {
         this.setState({chainEnded: !this.state.chainEnded});
-        
+
     }
 
     render () {
