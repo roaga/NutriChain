@@ -9,11 +9,14 @@ export default class LoadingScreen extends React.Component {
             //TODO: redirect to BankStack if this user is a food bank account
 
             if(user && user.emailVerified){
+                this.props.navigation.navigate("Bank");
+            } if(user && user.emailVerified) {
+                isFoodBank(user); // gets the data if user is foodbank or not
                 this.props.navigation.navigate("Indiv");
             } else {
                 this.props.navigation.navigate("Auth");
             }
-        })
+        });
     }
 
     render(){
