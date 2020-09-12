@@ -22,11 +22,10 @@ class IndivPickupCard extends React.Component {
         this.setState({readyForPickUp: !this.state.readyForPickUp});
         const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
         let uemail = firebase.auth().currentUser.email;
-        orderref.onSnapshot(function(doc){
+        orderref.get().then(function(doc){
             if(doc.exists){
                 let stops = doc.data().chain.length - 1;
                 let currentIndex = doc.data().currentIndex;
-                console.log(currentIndex);
                 let newIndex = currentIndex + 1;
                 orderref.update({currentIndex: newIndex});
                 if(currentIndex != 0){
