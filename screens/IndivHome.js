@@ -14,10 +14,14 @@ class IndivOrderCard extends React.Component {
     }
 
     render () {
+        let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
+        let holderName = this.props.order.chain[this.props.order.chain.length - 1].name;
+        let holderAddress = this.props.order.chain[this.props.order.chain.length - 1].address;
+
         return (
             <View style={styles.card}>
-                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.props.order.address}</Text>
-                <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Holder: {this.props.order.courier}</Text>
+                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{holderAddress}</Text>
+                <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Holder: {holderName}</Text>
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
                     <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>I'll pick this up</Text>
@@ -31,74 +35,25 @@ class IndivOrderCard extends React.Component {
 }
 
 export default class IndivHome extends React.Component {
-
-
     state = {
         loading: true,
         email: "",
         displayName: "",
         profileModalVisible: false,
         selectBankModalVisible: false,
-        orders: [
-            {
-              id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-              bundle: 'Vegetarian',
-              courier: "Akash",
-              address: "Techwood"
-            },
-            {
-              id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-              bundle: 'Family Meal',
-              courier: "Tony",
-              address: "North Ave"
-            },
-            {
-              id: '58694a0f-3da1-471f-bd96-145571e29d72',
-              bundle: 'Regular',
-              courier: "Rohan",
-              address: "Power Plant Dr"
-            },
-            {
-            id: '58694a0f-3da1-471f-bd96-145571e29d73',
-            bundle: 'Regular',
-            courier: "Tony",
-            address: "North Ave"
-            },
-          ],
+        orders: [],
     }
-
-    /*
-    Object {
-        "chain": Array [
-            "aveerappan8@gatech.edu",
-            "tonyahn02@gmail.com",
-        ],
-        "from": "aveerappan8@gatech.edu",
-        "isChainComplete": false,
-        "isOrderProcessed": false,
-        "mealPlan": "Veggies Bundle",
-        }
-    Object {
-        "this": "this",
-    }
-    Object {
-        "one": "one",
-    }
-*/
 
     componentDidMount(){
-        this.setState({loading: false});
         firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
+            let requests = [];
             snapshot.forEach(function (doc) {
-                console.log(doc.data());
-                firebase.firestore().collection("users").doc(doc.data().from).get().then(function(d) {
-                    if (d.exists) {
-                        let address = d.data().address;
-                        console.log(address);
-                    }
-                })
+                requests.push({...doc.data(), ...{id: doc.id}});
             });
-        });
+            this.setState({orders: requests});
+        }.bind(this));
+
+        this.setState({loading: false});
     }
 
     signOutUser = () => {
@@ -170,13 +125,3 @@ export default class IndivHome extends React.Component {
     }
 
 }
-
-
-// let getData = function () {
-//     firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
-//         snapshot.forEach(function (doc) {
-//             // write List code
-//             requests.push(doc.data());
-//         });
-//     });
-// }

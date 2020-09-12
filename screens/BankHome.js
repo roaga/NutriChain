@@ -14,10 +14,14 @@ class BankOrderCard extends React.Component {
     }
 
     render () {
+        let courierEmail = this.props.order.chain.length > 1 ? this.props.order.chain[1].email : "Searching...";
+        let courierName = this.props.order.chain.length > 1 ? this.props.order.chain[1].name : "Searching...";
+        let courierAddress = this.props.order.chain.length > 1 ? this.props.order.chain[1].address : "Searching...";
+
         return (
             <View style={styles.card}>
-                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.props.order.bundle}</Text>
-                <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Courier: {this.props.order.courier}</Text>
+                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.props.order.mealPlan}</Text>
+                <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Courier: {courierName}</Text>
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
                     <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>Prepared</Text>
@@ -40,31 +44,18 @@ export default class BankHome extends React.Component {
         email: "",
         displayName: "",
         profileModalVisible: false,
-        orders: [
-            {
-              id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-              bundle: 'Vegetarian',
-              courier: "Akash"
-            },
-            {
-              id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-              bundle: 'Family Meal',
-              courier: "Tony"
-            },
-            {
-              id: '58694a0f-3da1-471f-bd96-145571e29d72',
-              bundle: 'Regular',
-              courier: "Rohan"
-            },
-            {
-            id: '58694a0f-3da1-471f-bd96-145571e29d73',
-            bundle: 'Regular',
-            courier: "Tony"
-            },
-          ],
+        orders: [],
     }
 
     componentDidMount(){
+        firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
+            let requests = [];
+            snapshot.forEach(function (doc) {
+                requests.push({...doc.data(), ...{id: doc.id}});
+            });
+            this.setState({orders: requests});
+        }.bind(this));
+
         this.setState({loading: false});
     }
 
