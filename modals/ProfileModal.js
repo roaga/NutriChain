@@ -180,11 +180,11 @@ export default class ProfileModal extends React.Component {
                 </TouchableOpacity>
 
                 <Text style={styles.greeting}>{this.state.name}</Text>
-                <Text style={[styles.subtitle, {marginVertical: 32}]}>{this.state.address}</Text>
+                {/* <Text style={[styles.subtitle, {marginVertical: 32}]}>{this.state.address}</Text> */}
 
                 {true ? // if user is an individual
                     <View>
-                        <Text style={[styles.subtitle]}>Active Orders</Text>                        
+                        <Text style={[styles.subtitle, {marginTop: 32}]}>Active Orders</Text>                        
                         <FlatList
                             data={this.state.orders}
                             style={{marginHorizontal: 32, maxHeight: 400}}
