@@ -6,6 +6,7 @@ import {Ionicons} from '@expo/vector-icons'
 import styles from "../Styles"
 import {colors} from "../Styles"
 import ProfileModal from "../modals/ProfileModal"
+import SelectBankModal from '../modals/SelectBankModal'
 
 class IndivOrderCard extends React.Component {
     state = {
@@ -35,6 +36,7 @@ export default class IndivHome extends React.Component {
         email: "",
         displayName: "",
         profileModalVisible: false,
+        selectBankModalVisible: false,
         orders: [
             {
               id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -81,6 +83,10 @@ export default class IndivHome extends React.Component {
     toggleProfileModal = () => {
         this.setState({profileModalVisible: !this.state.profileModalVisible});
     }
+
+    toggleSelectBankModal = () => {
+        this.setState({selectBankModalVisible: !this.state.selectBankModalVisible});
+    }
     
     render(){
         if(this.state.loading){
@@ -98,7 +104,7 @@ export default class IndivHome extends React.Component {
                     <Text style={styles.buttonText}>Your Info {'>'}</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={[styles.button, {marginTop: 16, marginBottom: 32}]} onPress={() => this.toggleProfileModal()}>
+                <TouchableOpacity style={[styles.button, {marginTop: 16, marginBottom: 32}]} onPress={() => this.toggleSelectBankModal()}>
                     <Text style={styles.buttonText}>Order Food {'>'}</Text>
                 </TouchableOpacity>
 
@@ -119,6 +125,13 @@ export default class IndivHome extends React.Component {
                     onRequestClose={() => this.toggleProfileModal()}
                 >
                     <ProfileModal closeModal={() => this.toggleProfileModal()} signOut={() => this.signOutUser()}/>
+                </Modal>
+                <Modal 
+                    animationType="slide" 
+                    visible={this.state.selectBankModalVisible} 
+                    onRequestClose={() => this.toggleSelectBankModal()}
+                >
+                    <SelectBankModal closeModal={() => this.toggleSelectBankModal()}/>
                 </Modal>
             </View>
         )
