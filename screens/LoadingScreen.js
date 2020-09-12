@@ -35,11 +35,12 @@ const styles = StyleSheet.create({
 })
 
 let isFoodBank = function (user) {
-    console.log("THis")
     firebase.firestore().collection("users").doc(user.email).get().then(function(doc) {
         console.log(doc.data().toString());
         if (doc.exists) {
-            console.log(doc.data().isFoodBank);
+            return doc.data().isFoodBank;
+        } else {
+            return null;
         }
     })
 }
