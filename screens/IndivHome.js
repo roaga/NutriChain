@@ -98,14 +98,14 @@ export default class IndivHome extends React.Component {
         firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
             let requests = [];
             snapshot.forEach(function (doc) {
-                if(doc.data().chain.filter(item => (item.email == this.state.email).length < 1
+                if(doc.data().chain.filter(item => ((item.email == this.state.email).length < 1
                     && 
                     ((item.chain[item.currentIndex].latitude > this.state.coords.latitude && item.fromAddress.latitude < this.state.coords.latitude ) ||
                     (item.chain[item.currentIndex].latitude < this.state.coords.latitude && item.fromAddress.latitude > this.state.coords.latitude )) &&
                     ((item.chain[item.currentIndex].longitude > this.state.coords.longitude && item.fromAddress.longitude < this.state.coords.longitude ) ||
                     (item.chain[item.currentIndex].longitude < this.state.coords.longitude && item.fromAddress.longitude > this.state.coords.longitude ))
                     )
-                ){
+                )){
                     requests.push({...doc.data(), ...{id: doc.id}});
                 }
             }.bind(this));
