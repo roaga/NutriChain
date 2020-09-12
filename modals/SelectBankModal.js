@@ -65,7 +65,10 @@ class BankCard extends React.Component {
 
 export default class SelectBankModal extends React.Component {
     state = {
-        banks: [{id: "1234424f3f", name: "Atlanta Bank", address: "Peachtree St", bundles: ["Vegetarian", "Regular"]}]
+        banks: [
+            {id: "1234424f3f", name: "Atlanta Bank", address: "Peachtree St", bundles: ["Vegetarian", "Regular"]},
+            {id: "1234424f3g", name: "Klemis Kitchen", address: "Brittain St", bundles: ["Vegetarian", "Regular", "Allergen-free"]}
+        ]
     }
 
     renderCard = (bank) => {
