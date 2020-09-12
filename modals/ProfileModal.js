@@ -15,7 +15,7 @@ export default class ProfileModal extends React.Component {
                     <Ionicons name="md-close" size={42} color="#000000"/>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{alignItems: "center"}} onPress={() => this.props.signOut()}>
+                <TouchableOpacity style={{alignItems: "center", marginTop: 16}} onPress={() => this.props.signOut()}>
                     <Text style={{color: colors.primary}}>Sign Out</Text>
                 </TouchableOpacity>
             </View>
