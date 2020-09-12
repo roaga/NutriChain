@@ -80,7 +80,7 @@ class IndivPickupCard extends React.Component {
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
                     <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>I've picked up the order</Text>
-                    {!this.state.readyForPickUp ? <TouchableOpacity onPress={() => this.markReady()}>
+                    {(!this.state.readyForPickUp && this.state.courierAddress == firebase.auth().currentUser.email) ? <TouchableOpacity onPress={() => this.markReady()}>
                         <Ionicons name={this.state.readyForPickUp ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
                     </TouchableOpacity> : null}
                 </View>
@@ -173,7 +173,7 @@ export default class ProfileModal extends React.Component {
                     // if(doc.data().from == email) {
                     //     orders.push({...doc.data(), ...{id: doc.id}});
                     // } else 
-                    if ((doc.data().from == email || doc.data().chain.filter(obj => obj.email == email).length > 0) && doc.data().chain.map(item => item.email).indexOf(email) <= doc.data().currentIndex){
+                    if ((doc.data().from == email || doc.data().chain.filter(obj => obj.email == email).length > 0) && doc.data().chain.map(item => item.email).indexOf(email) >= doc.data().currentIndex){
                         pickups.push({...doc.data(), ...{id: doc.id}});
                     }
                 });
