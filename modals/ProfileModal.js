@@ -18,7 +18,7 @@ class IndivPickupCard extends React.Component {
     }
 
     markReady = () => {
-        console.log(this.state.holderEmail);
+        let hEmail = this.state.holderEmail;
         this.setState({readyForPickUp: !this.state.readyForPickUp});
         const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
         let uemail = firebase.auth().currentUser.email;
@@ -30,9 +30,9 @@ class IndivPickupCard extends React.Component {
                 let newIndex = currentIndex + 1;
                 orderref.update({currentIndex: newIndex});
                 if(currentIndex != 0){
-                    firebase.firestore().collection('users').doc(this.state.holderEmail).get().then(function(d){
+                    firebase.firestore().collection('users').doc(hEmail).get().then(function(d){
                         let newPoints = points +  100 / (stops)
-                        firebase.firestore().collection('users').doc(this.state.holderEmail).update({points: newPoints});
+                        firebase.firestore().collection('users').doc(hEmail).update({points: newPoints});
                     })
                 }
                 if (doc.data().from == firebase.auth().currentUser.email) { 
