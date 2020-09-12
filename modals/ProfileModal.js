@@ -18,7 +18,26 @@ class IndivPickupCard extends React.Component {
     }
 
     markReady = () => {
+        console.log(this.state.holderEmail);
         this.setState({readyForPickUp: !this.state.readyForPickUp});
+        const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
+        let uemail = firebase.auth().currentUser.email;
+        orderref.get().then(function(doc){
+            if(doc.exists){
+                let stops = doc.data().chain.length-1;
+                let currentIndex = doc.data().currentIndex;
+                console.log(currentIndex);
+                let newIndex = doc.data().currentIndex + 1;
+                orderref.update({currentIndex: newIndex}); 
+                if(currentIndex != 0){
+                    const userref = firebase.firestore().collection('users').doc(this.state.holderEmail);
+                    firebase.firestore().collection('users').doc(this.state.holderEmail).get().then(function(d){
+                        let newPoints = points +  100/(stops)
+                        userref.update({points: newPoints});
+                    })
+                }
+            }
+        })
     }
     
     componentDidMount(){
@@ -58,9 +77,9 @@ class IndivPickupCard extends React.Component {
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
                     <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>I've picked up the order</Text>
-                    <TouchableOpacity onPress={() => this.markReady()}>
+                    {!this.state.readyForPickUp ? <TouchableOpacity onPress={() => this.markReady()}>
                         <Ionicons name={this.state.readyForPickUp ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> : null}
                 </View>
             </View>
         );
