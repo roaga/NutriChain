@@ -13,6 +13,11 @@ class IndivOrderCard extends React.Component {
         pickedUp: false,
     }
 
+    addToChain = () => {
+        this.setState({pickedUp: !this.state.pickedUp});
+
+    }
+
     render () {
         let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
         let holderName = this.props.order.chain[this.props.order.chain.length - 1].name;
@@ -25,7 +30,7 @@ class IndivOrderCard extends React.Component {
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
                     <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>I'll pick this up</Text>
-                    <TouchableOpacity onPress={() => this.setState({pickedUp: !this.state.pickedUp})}>
+                    <TouchableOpacity onPress={() => this.addToChain()}>
                         <Ionicons name={this.state.pickedUp ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
                     </TouchableOpacity>
                 </View>

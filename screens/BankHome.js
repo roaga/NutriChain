@@ -42,16 +42,18 @@ export default class BankHome extends React.Component {
     state = {
         loading: true,
         email: "",
-        displayName: "",
         profileModalVisible: false,
         orders: [],
     }
 
     componentDidMount(){
+        this.setState({email: firebase.auth().currentUser.email})
         firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
             let requests = [];
             snapshot.forEach(function (doc) {
-                requests.push({...doc.data(), ...{id: doc.id}});
+                if(doc.data().chain[0].email == this.state.email){
+                    requests.push({...doc.data(), ...{id: doc.id}});
+                }
             });
             this.setState({orders: requests});
         }.bind(this));
