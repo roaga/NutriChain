@@ -92,7 +92,7 @@ export default class OrderModal extends React.Component {
 
                 <FlatList
                     data={this.state.meals}
-                    style={{marginHorizontal: 32, maxHeight: 400}}
+                    style={{marginHorizontal: 32}}
                     showsVerticalScrollIndicator={false}
                     contentContainerStyle={{paddingBottom: 48}}
                     keyExtractor={item => item.id}
