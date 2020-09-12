@@ -80,7 +80,7 @@ class MealCard extends React.Component {
                                 firebase.firestore().collection("users").doc(uemail).get().then(function(doc) {
                                     if (doc.exists) {
                                         let points = doc.data().points;
-                                        firebase.firestore().collection("users").doc(uemail).update({points: points - 50});
+                                        firebase.firestore().collection("users").doc(uemail).update({points: points - 100});
                                     }
                                 });
             
