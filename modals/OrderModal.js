@@ -42,6 +42,7 @@ class MealCard extends React.Component {
         let uaddress = this.props.address;
         let ubank = this.props.bank.name;
         let ubankaddress = this.props.bank.address;
+        let ucoords = this.props.bank.coords;
 
         let props = this.props;
         
@@ -66,7 +67,7 @@ class MealCard extends React.Component {
                                     chain: [{name: ubank,
                                         email: "atlfoodbank@gmail.com",
                                         address: ubankaddress,
-                                        coords: this.props.bank.coords
+                                        coords: ucoords
                                     }],
                                     from: firebase.auth().currentUser.email,
                                     fromAddress: uaddress,
