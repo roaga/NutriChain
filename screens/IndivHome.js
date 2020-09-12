@@ -181,7 +181,7 @@ export default class IndivHome extends React.Component {
 
         return(
             <View style={styles.container}>
-                <Text style={styles.greeting}>App Name</Text>
+                <Text style={[styles.greeting, {color: colors.primary}]}>NutriChain</Text>
 
                 <TouchableOpacity style={[styles.button, {marginTop: 32}]} onPress={() => this.toggleProfileModal()}>
                     <Text style={styles.buttonText}>Your Info {'>'}</Text>
