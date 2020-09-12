@@ -2,6 +2,7 @@ import React from 'react'
 import {View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, Modal, Alert} from 'react-native'
 import * as firebase from 'firebase'
 import {Ionicons} from '@expo/vector-icons'
+import * as Animatable from 'react-native-animatable';
 
 import styles from "../Styles"
 import {colors} from "../Styles"
@@ -17,12 +18,12 @@ class MealCard extends React.Component {
 
     render () {
         return (
-            <View style={styles.card}>
+            <Animatable.View style={styles.card} animation="slideInUp" duration={500}>
                 <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.props.meal}</Text>
                 <TouchableOpacity style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16, right: 16}} onPress={() => this.props.placeOrder(this.props.meal)}>
                     <Text style={{color: colors.primary}}>Order {'>'}</Text>
                 </TouchableOpacity>
-            </View>
+            </Animatable.View>
         );
     }
 }
