@@ -62,15 +62,18 @@ export default class ProfileModal extends React.Component {
     }
 
     componentDidMount () {
-        firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function (doc) {
-            if (doc.exists) {
-                let name = doc.data().name;
-                let address = doc.data().address;
-                console.log(name + " " + address);
-                this.setState({name: name});
-                this.setState({address: address});
-            }
-        }.bind(this));
+        let email = firebase.auth().currentUser.email;
+        if (email != undefined) {
+            firebase.firestore().collection("users").doc(email).get().then(function (doc) {
+                if (doc.exists) {
+                    let name = doc.data().name;
+                    let address = doc.data().address;
+                    console.log(name + " " + address);
+                    this.setState({name: name});
+                    this.setState({address: address});
+                }
+            }.bind(this));
+        }
     }
 
     renderPickupCard = (order) => {
