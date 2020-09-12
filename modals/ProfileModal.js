@@ -12,9 +12,18 @@ class IndivPickupCard extends React.Component {
     }
 
     render () {
+        let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
+        let holderName = this.props.order.chain[this.props.order.chain.length - 1].name;
+        let holderAddress = this.props.order.chain[this.props.order.chain.length - 1].address;
+        let courierEmail = this.props.order.chain.length > 1 ? this.props.order.chain[1].email : "Searching...";
+        let courierName = this.props.order.chain.length > 1 ? this.props.order.chain[1].name : "Searching...";
+        let courierAddress = this.props.order.chain.length > 1 ? this.props.order.chain[1].address : "Searching...";
+
         return (
             <View style={styles.card}>
-                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>Courier: {this.props.order.courier != null ? this.props.order.courier : "Searching..."}</Text>
+                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>Courier: {courierName}</Text>
+                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>Holder: {holderName}</Text>
+                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{holderAddress}</Text>
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
                     <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>I've picked up the order</Text>
@@ -26,16 +35,21 @@ class IndivPickupCard extends React.Component {
         );
     }
 }
+
 class IndivOrderCard extends React.Component {
     state = {
         readyForPickUp: false,
     }
 
     render () {
+        let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
+        let holderName = this.props.order.chain[this.props.order.chain.length - 1].name;
+        let holderAddress = this.props.order.chain[this.props.order.chain.length - 1].address;
+
         return (
             <View style={styles.card}>
-                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.props.order.address}</Text>
-                <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Holder: {this.props.order.holder != null ? this.props.order.holder : "Searching..."}</Text>
+                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{holderAddress}</Text>
+                <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Holder: {holderName}</Text>
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
                     <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>This is close enough for me</Text>
@@ -50,12 +64,7 @@ class IndivOrderCard extends React.Component {
 
 export default class ProfileModal extends React.Component {
     state = {
-        orders: [{
-            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-            bundle: 'Vegetarian',
-            holder: "Akash",
-            address: "Techwood"
-          }],
+        orders: [],
         pickups: [],
         name: "",
         address: ""
@@ -72,6 +81,20 @@ export default class ProfileModal extends React.Component {
                     this.setState({name: name});
                     this.setState({address: address});
                 }
+            }.bind(this));
+
+            firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
+                let orders = [];
+                let pickups = [];
+                snapshot.forEach(function (doc) {
+                    if(doc.data().from == email) {
+                        orders.push({...doc.data(), ...{id: doc.id}});
+                    } else if (doc.data().chain.filter(obj => obj.email == email).length > 0){
+                        pickups.push({...doc.data(), ...{id: doc.id}});
+                    }
+                });
+                this.setState({orders: orders});
+                this.setState({pickups: pickups})
             }.bind(this));
         }
     }
