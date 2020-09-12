@@ -32,11 +32,13 @@ class IndivOrderCard extends React.Component {
 
                 //add to chain
                 const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
+
                 firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function(doc) {
                     if (doc.exists) {
                         let uname = doc.data().name;
                         let uaddress = doc.data().address;
                         let uemail = firebase.auth().currentUser.email;
+                        let points = doc.data().points;
                         orderref.get().then(function(doc){
                             if(doc.exists){
                                 let uchain = doc.data().chain;
@@ -47,11 +49,18 @@ class IndivOrderCard extends React.Component {
                                     address: uaddress
                                 })
                                 // let newindex = doc.data().currentIndex + 1;
-                                orderref.update({chain: uchain, currentIndex: currentIndex})
+                                orderref.update({chain: uchain, currentIndex: currentIndex});
+
+                                if (uname == firebase.auth().currentUser.email) { // if the user who ordered picks it up
+                                    firebase.firestore().collection("archives").add(doc.data()); // add data to archives
+                                    orderref.delete(); // delete data from requests
+                                    points = 100 / (currentIndex + 1) + points;
+                                    firebase.firestore().collection("users").doc(uemail).update({points: points});
+                                }
                             }
                         })
                     }
-                })
+                });
                 //remove from Nearby Pickups
                 this.props.removeOrderLocally(this.props.order.id);
               }}
