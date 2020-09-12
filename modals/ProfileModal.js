@@ -114,10 +114,7 @@ class IndivOrderCard extends React.Component {
                 <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Holder: {this.state.holderName}</Text>
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
-                    <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>Pick up your order from dashboard when convenient.</Text>
-                    <TouchableOpacity onPress={() => this.endChain()}>
-                        <Ionicons name={this.state.chainEnded ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
-                    </TouchableOpacity>
+                    <Text style={[styles.subtitle, {marginRight : 32, fontSize: 16, textAlign: "right"}]}>Pick up your order when convenient.</Text>
                 </View>
             </View>
         );
