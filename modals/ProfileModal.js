@@ -18,10 +18,29 @@ class IndivPickupCard extends React.Component {
     }
 
     markReady = () => {
+        console.log(this.state.holderEmail);
         this.setState({readyForPickUp: !this.state.readyForPickUp});
-
-        //Update currentIndex
-
+        const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
+        let uemail = firebase.auth().currentUser.email;
+        orderref.get().then(function(doc){
+            if(doc.exists){
+                let stops = doc.data().chain.length - 1;
+                let currentIndex = doc.data().currentIndex;
+                console.log(currentIndex);
+                let newIndex = currentIndex + 1;
+                orderref.update({currentIndex: newIndex});
+                if(currentIndex != 0){
+                    firebase.firestore().collection('users').doc(this.state.holderEmail).get().then(function(d){
+                        let newPoints = points +  100 / (stops)
+                        firebase.firestore().collection('users').doc(this.state.holderEmail).update({points: newPoints});
+                    })
+                }
+                if (doc.data().from == firebase.auth().currentUser.email) { 
+                    firebase.firestore().collection("archives").add(doc.data()); // add data to archives
+                    orderref.delete(); // delete data from requests
+                }
+            }
+        });
         //Add points to previous person in chain
     }
 
@@ -57,14 +76,14 @@ class IndivPickupCard extends React.Component {
         return (
             <View style={styles.card}>
                 <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>Courier: {this.state.courierName}</Text>
-                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>Holder: {this.state.holderName}</Text>
-                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.state.holderAddress}</Text>
+                <Text style={[styles.subtitle, {alignSelf: "flex-start", fontSize: 16}]}>Holder: {this.state.holderName}</Text>
+                <Text style={[styles.subtitle, {alignSelf: "flex-start", fontSize: 16}]}>{this.state.holderAddress}</Text>
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
                     <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>I've picked up the order</Text>
-                    <TouchableOpacity onPress={() => this.markReady()}>
+                    {!this.state.readyForPickUp ? <TouchableOpacity onPress={() => this.markReady()}>
                         <Ionicons name={this.state.readyForPickUp ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
-                    </TouchableOpacity>
+                    </TouchableOpacity> : null}
                 </View>
             </View>
         );
@@ -152,9 +171,10 @@ export default class ProfileModal extends React.Component {
                 let orders = [];
                 let pickups = [];
                 snapshot.forEach(function (doc) {
-                    if(doc.data().from == email) {
-                        orders.push({...doc.data(), ...{id: doc.id}});
-                    } else if (doc.data().chain.filter(obj => obj.email == email).length > 0){
+                    // if(doc.data().from == email) {
+                    //     orders.push({...doc.data(), ...{id: doc.id}});
+                    // } else 
+                    if ((doc.data().from == email || doc.data().chain.filter(obj => obj.email == email).length > 0) && doc.data().map(item => item.email).indexOf(email) <= doc.data().currentIndex){
                         pickups.push({...doc.data(), ...{id: doc.id}});
                     }
                 });
@@ -189,7 +209,7 @@ export default class ProfileModal extends React.Component {
 
                 {true ? // if user is an individual
                     <View>
-                        <Text style={[styles.subtitle, {marginTop: 32}]}>Active Orders</Text>                        
+                        {/* <Text style={[styles.subtitle, {marginTop: 32}]}>Active Orders</Text>                        
                         <FlatList
                             data={this.state.orders}
                             style={{marginHorizontal: 32, maxHeight: 400}}
@@ -197,10 +217,10 @@ export default class ProfileModal extends React.Component {
                             contentContainerStyle={{paddingBottom: 48}}
                             keyExtractor={item => item.id}
                             renderItem={({item}) => this.renderOrderCard(item)}
-                        />
+                        /> */}
 
 
-                        <Text style={[styles.subtitle]}>Active Pickups</Text>
+                        <Text style={[styles.subtitle]}>Active Orders</Text>
                         <FlatList
                             data={this.state.pickups}
                             style={{marginHorizontal: 32, maxHeight: 400}}

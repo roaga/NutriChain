@@ -134,7 +134,7 @@ export default class IndivHome extends React.Component {
             let requests = [];
             snapshot.forEach(function (doc) {
                 if (doc.exists && doc.data() != undefined) {
-                    if(doc.data().chain.filter(item => item.email == this.state.email).length < 1){
+                    if(doc.data().chain.filter(item => item.email == this.state.email).length < 1 && doc.data().chain.filter(item => item.email == doc.data().from).length < 1){
                         requests.push({...doc.data(), ...{id: doc.id}});
                     }
                 }
