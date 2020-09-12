@@ -130,31 +130,54 @@ export default class IndivHome extends React.Component {
         firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function (doc) {
             if (doc.exists) {
                 let coords = doc.data().coords;
-                this.setState({coords: coords});
+                //console.log(doc.data());
+                //this.setState({coords: coords});
                 let address = doc.data().address;
-                this.setState({address: address});
+                //this.setState({address: address});
+                firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
+                    let requests = [];
+                    snapshot.forEach(function (doc) {
+                        if (doc.exists && doc.data() != undefined) {
+                            this.setState({coords: coords});
+                            this.setState({address: address});
+                            if((doc.data().chain.filter(item => item.email == this.state.email).length < 1 && doc.data().chain.filter(item => item.email == doc.data().from).length < 1)
+                                && 
+                                (
+                                    (doc.data().chain[doc.data().currentIndex].coords[0].latitude > coords[0].latitude && doc.data().fromCoords[0].latitude < coords[0].latitude ) ||
+                                (doc.data().chain[doc.data().currentIndex].coords[0].latitude < coords[0].latitude && doc.data().fromCoords[0].latitude > coords[0].latitude )
+                                ) && (
+                                    (doc.data().chain[doc.data().currentIndex].coords[0].longitude > coords[0].longitude && doc.data().fromCoords[0].longitude < coords[0].longitude ) ||
+                                (doc.data().chain[doc.data().currentIndex].coords[0].longitude < coords[0].longitude && doc.data().fromCoords[0].longitude > coords[0].longitude )
+                                )
+                            ){
+                                requests.push({...doc.data(), ...{id: doc.id}});
+                            }
+                        }
+                    }.bind(this));
+                    this.setState({orders: requests});
+                }.bind(this));
             }
         }.bind(this));
-        firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
-            let requests = [];
-            snapshot.forEach(function (doc) {
-                if (doc.exists && doc.data() != undefined) {
-                    if((doc.data().chain.filter(item => item.email == this.state.email).length < 1 && doc.data().chain.filter(item => item.email == doc.data().from).length < 1)
-                        && 
-                        (
-                            (doc.data().chain[doc.data().currentIndex].coords[0].latitude > this.state.coords[0].latitude && doc.data().fromCoords[0].latitude < this.state.coords[0].latitude ) ||
-                        (doc.data().chain[doc.data().currentIndex].coords[0].latitude < this.state.coords[0].latitude && doc.data().fromCoords[0].latitude > this.state.coords[0].latitude )
-                        ) && (
-                            (doc.data().chain[doc.data().currentIndex].coords[0].longitude > this.state.coords[0].longitude && doc.data().fromCoords[0].longitude < this.state.coords[0].longitude ) ||
-                        (doc.data().chain[doc.data().currentIndex].coords[0].longitude < this.state.coords[0].longitude && doc.data().fromCoords[0].longitude > this.state.coords[0].longitude )
-                        )
-                    ){
-                        requests.push({...doc.data(), ...{id: doc.id}});
-                    }
-                }
-            }.bind(this));
-            this.setState({orders: requests});
-        }.bind(this));
+        // firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
+        //     let requests = [];
+        //     snapshot.forEach(function (doc) {
+        //         if (doc.exists && doc.data() != undefined) {
+        //             if((doc.data().chain.filter(item => item.email == this.state.email).length < 1 && doc.data().chain.filter(item => item.email == doc.data().from).length < 1)
+        //                 && 
+        //                 (
+        //                     (doc.data().chain[doc.data().currentIndex].coords[0].latitude > this.state.coords[0].latitude && doc.data().fromCoords[0].latitude < this.state.coords[0].latitude ) ||
+        //                 (doc.data().chain[doc.data().currentIndex].coords[0].latitude < this.state.coords[0].latitude && doc.data().fromCoords[0].latitude > this.state.coords[0].latitude )
+        //                 ) && (
+        //                     (doc.data().chain[doc.data().currentIndex].coords[0].longitude > this.state.coords[0].longitude && doc.data().fromCoords[0].longitude < this.state.coords[0].longitude ) ||
+        //                 (doc.data().chain[doc.data().currentIndex].coords[0].longitude < this.state.coords[0].longitude && doc.data().fromCoords[0].longitude > this.state.coords[0].longitude )
+        //                 )
+        //             ){
+        //                 requests.push({...doc.data(), ...{id: doc.id}});
+        //             }
+        //         }
+        //     }.bind(this));
+        //     this.setState({orders: requests});
+        // }.bind(this));
         
         this.setState({loading: false});
     }
