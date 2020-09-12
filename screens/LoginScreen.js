@@ -15,7 +15,9 @@ export default class LoginScreen extends React.Component {
         
         firebase.auth().signInWithEmailAndPassword(email, password).catch(error => this.setState({errorMessage: error.message}));
         firebase.auth().onAuthStateChanged(user => {
-            user.reload();
+            if(user){
+                user.reload();
+            }
             if(user && !user.emailVerified){
                 this.setState({errorMessage: "Your email is not verified. Check your inbox."})
             }
