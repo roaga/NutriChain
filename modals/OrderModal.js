@@ -51,6 +51,7 @@ export default class OrderModal extends React.Component {
               { text: "OK", onPress: () => {
                     //Place Order
                     let uemail = firebase.auth().currentUser.email;
+                    let uaddress = this.props.address;
                     
                     firebase.firestore().collection("users").doc(uemail).get().then(function (doc) {
                         if (doc.exists) {

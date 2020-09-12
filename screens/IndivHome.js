@@ -113,10 +113,17 @@ export default class IndivHome extends React.Component {
         profileModalVisible: false,
         selectBankModalVisible: false,
         orders: [],
+        address: ""
     }
 
     componentDidMount(){
         this.setState({email: firebase.auth().currentUser.email});
+        firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function (doc) {
+            if (doc.exists) {
+                let address = doc.data().address;
+                this.setState({address: address});
+            }
+        }.bind(this));
         firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
             let requests = [];
             snapshot.forEach(function (doc) {
@@ -163,6 +170,7 @@ export default class IndivHome extends React.Component {
                 </View>
             )
         }
+
         return(
             <View style={styles.container}>
                 <Text style={styles.greeting}>App Name</Text>
@@ -198,7 +206,7 @@ export default class IndivHome extends React.Component {
                     visible={this.state.selectBankModalVisible} 
                     onRequestClose={() => this.toggleSelectBankModal()}
                 >
-                    <SelectBankModal closeModal={() => this.toggleSelectBankModal()}/>
+                    <SelectBankModal closeModal={() => this.toggleSelectBankModal()} address={this.state.address}/>
                 </Modal>
             </View>
         )
