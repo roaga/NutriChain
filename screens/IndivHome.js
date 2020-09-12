@@ -33,39 +33,21 @@ class IndivOrderCard extends React.Component {
                 //add to chain
                 const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
 
-                firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function(doc) {
+                orderref.get().then(function(doc) {
+                    
                     if (doc.exists) {
-                        let uname = doc.data().Name;
-                        let uaddress = doc.data().address;
-                        let uemail = firebase.auth().currentUser.email;
-                        //let points = doc.data().points;
-                        orderref.get().then(function(doc){
-                            if(doc.exists){
-                                let uchain = doc.data().chain;
-                                let currentIndex = doc.data().currentIndex;
-                                uchain.push({
-                                    name: uname,
-                                    email: uemail,
-                                    address: uaddress
-                                });
-                                // let newindex = doc.data().currentIndex + 1;
-                                orderref.update({chain: uchain, currentIndex: currentIndex});
-
-                                console.log(doc.data().from + " == " + firebase.auth().currentUser.email);
-
-                                if (doc.data().from == firebase.auth().currentUser.email) { 
-                                    console.log("Test");// if the user who ordered picks it up
-                                    firebase.firestore().collection("archives").add(doc.data()); // add data to archives
-                                    orderref.delete(); // delete data from requests
-                                    points = 100 / (currentIndex + 1) + points;
-                                    firebase.firestore().collection("users").doc(uemail).update({points: points});
-                                }
-        
-                                
-                            }
-                        });
+                        
+                        if (doc.data().from == firebase.auth().currentUser.email) { 
+                            console.log("Test");// if the user who ordered picks it up
+                            firebase.firestore().collection("archives").add(doc.data()); // add data to archives
+                            orderref.delete(); // delete data from requests
+                            points = 100 / (currentIndex + 1) + points;
+                            firebase.firestore().collection("users").doc(uemail).update({points: points});
+                        }
                     }
                 });
+
+                
                 //remove from Nearby Pickups
                 //this.props.removeOrderLocally(this.props.order.id);
               }}
@@ -76,10 +58,12 @@ class IndivOrderCard extends React.Component {
     componentDidMount(){
         const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
         orderref.onSnapshot(function(doc){
-            let holder = doc.data().chain[doc.data().currentIndex];
-            this.setState({holderEmail: holder.email});
-            this.setState({holderName: holder.name});
-            this.setState({holderAddress: holder.address});        
+            if (doc.exists && doc.data() != undefined) {
+                let holder = doc.data().chain[doc.data().currentIndex];
+                this.setState({holderEmail: holder.email});
+                this.setState({holderName: holder.name});
+                this.setState({holderAddress: holder.address});    
+            }    
         }.bind(this));
     }
     render () {
@@ -126,8 +110,10 @@ export default class IndivHome extends React.Component {
         firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
             let requests = [];
             snapshot.forEach(function (doc) {
-                if(doc.data().chain.filter(item => item.email == this.state.email).length < 1){
-                    requests.push({...doc.data(), ...{id: doc.id}});
+                if (doc.exists && doc.data() != undefined) {
+                    if(doc.data().chain.filter(item => item.email == this.state.email).length < 1){
+                        requests.push({...doc.data(), ...{id: doc.id}});
+                    }
                 }
             }.bind(this));
             this.setState({orders: requests});

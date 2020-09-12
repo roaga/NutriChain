@@ -52,36 +52,19 @@ export default class OrderModal extends React.Component {
                     //Place Order
                     let uemail = firebase.auth().currentUser.email;
                     let uaddress = this.props.address;
-                    
-                    firebase.firestore().collection("users").doc(uemail).get().then(function (doc) {
-                        if (doc.exists) {
-                            firebase.firestore().collection('requests').add({
-                                chain: [{name: this.props.bank.name,
-                                    email: "atlfoodbank@gmail.com",
-                                    address: this.props.bank.address,
-                                }],
-                                from: firebase.auth().currentUser.email,
-                                fromAddress: doc.data().address,
-                                isChainComplete: false, 
-                                isOrderProcessed: false,
-                                mealPlan: meal,
-                                currentIndex: 0
-                            });
-                        }
-                    });
-
-                    // firebase.firestore().collection('requests').add({
-                    //     chain: [{name: this.props.bank.name,
-                    //         email: "atlfoodbank@gmail.com",
-                    //         address: this.props.bank.address,
-                    //     }],
-                    //     from: firebase.auth().currentUser.email,
-                    //     fromAddress: "This",
-                    //     isChainComplete: false, 
-                    //     isOrderProcessed: false,
-                    //     mealPlan: meal,
-                    //     currentIndex: 0
-                    // }); // this works
+                  
+                    firebase.firestore().collection('requests').add({
+                        chain: [{name: this.props.bank.name,
+                            email: "atlfoodbank@gmail.com",
+                            address: this.props.bank.address,
+                        }],
+                        from: firebase.auth().currentUser.email,
+                        fromAddress: uaddress,
+                        isChainComplete: false, 
+                        isOrderProcessed: false,
+                        mealPlan: meal,
+                        currentIndex: 0
+                    }); // this works
 
                     firebase.firestore().collection("users").doc(uemail).get().then(function(doc) {
                         if (doc.exists) {
