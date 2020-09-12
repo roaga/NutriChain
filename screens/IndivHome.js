@@ -2,6 +2,7 @@ import React from 'react'
 import {View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, Modal, Alert} from 'react-native'
 import * as firebase from 'firebase'
 import {Ionicons} from '@expo/vector-icons'
+import * as Animatable from 'react-native-animatable';
 
 import styles from "../Styles"
 import {colors} from "../Styles"
@@ -92,12 +93,8 @@ class IndivOrderCard extends React.Component {
         }.bind(this));
     }
     render () {
-        /*let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
-        let holderName = this.props.order.chain[this.props.order.chain.length - 1].name;
-        let holderAddress = this.props.order.chain[this.props.order.chain.length - 1].address;
-        */
        return (
-        <View style={styles.card}>
+        <Animatable.View style={styles.card} animation="slideInUp" duration={500}>
             <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.state.holderAddress}</Text>
             <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Holder: {this.state.holderName}</Text>
 
@@ -107,7 +104,7 @@ class IndivOrderCard extends React.Component {
                     <Ionicons name={this.state.pickedUp ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
                 </TouchableOpacity>
             </View>
-        </View>
+        </Animatable.View>
     );
         
     }

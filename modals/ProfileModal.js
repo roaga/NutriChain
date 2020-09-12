@@ -2,6 +2,7 @@ import React from 'react'
 import {View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, Modal} from 'react-native'
 import * as firebase from 'firebase'
 import {Ionicons} from '@expo/vector-icons'
+import * as Animatable from 'react-native-animatable';
 
 import styles from "../Styles"
 import {colors} from "../Styles"
@@ -66,15 +67,8 @@ class IndivPickupCard extends React.Component {
        }.bind(this))
     }
     render () {
-        /*let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
-        let holderName = this.props.order.chain[this.props.order.chain.length - 1].name;
-        let holderAddress = this.props.order.chain[this.props.order.chain.length - 1].address;
-        let courierEmail = this.props.order.chain.length > 1 ? this.props.order.chain[1].email : "Searching...";
-        let courierName = this.props.order.chain.length > 1 ? this.props.order.chain[1].name : "Searching...";
-        let courierAddress = this.props.order.chain.length > 1 ? this.props.order.chain[1].address : "Searching...";
-        */
         return (
-            <View style={styles.card}>
+            <Animatable.View style={styles.card} animation="slideInUp" duration={500}>
                 <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>Courier: {this.state.courierName}</Text>
                 <Text style={[styles.subtitle, {alignSelf: "flex-start", fontSize: 16}]}>Holder: {this.state.holderName}</Text>
                 <Text style={[styles.subtitle, {alignSelf: "flex-start", fontSize: 16}]}>{this.state.holderAddress}</Text>
@@ -85,7 +79,7 @@ class IndivPickupCard extends React.Component {
                         <Ionicons name={this.state.readyForPickUp ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
                     </TouchableOpacity> : null}
                 </View>
-            </View>
+            </Animatable.View>
         );
     }
 }
@@ -135,14 +129,14 @@ class IndivOrderCard extends React.Component {
         let holderAddress = this.props.order.chain[this.props.order.chain.length - 1].address;
         */
         return (
-            <View style={styles.card}>
+            <Animatable.View style={styles.card} animation="slideInUp" duration={500}>
                 <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.state.holderAddress}</Text>
                 <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Holder: {this.state.holderName}</Text>
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
                     <Text style={[styles.subtitle, {marginRight : 32, fontSize: 16, textAlign: "right"}]}>Pick up your order when convenient.</Text>
                 </View>
-            </View>
+            </Animatable.View>
         );
     }
 }
