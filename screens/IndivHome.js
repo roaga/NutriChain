@@ -138,14 +138,15 @@ export default class IndivHome extends React.Component {
             let requests = [];
             snapshot.forEach(function (doc) {
                 if (doc.exists && doc.data() != undefined) {
+                    let diff = 0.02; // threshold in degrees
                     if((doc.data().chain.filter(item => item.email == this.state.email).length < 1 && doc.data().chain.filter(item => item.email == doc.data().from).length < 1)
                         && 
                         (
-                            (doc.data().chain[doc.data().currentIndex].coords[0].latitude >= this.state.coords[0].latitude && doc.data().fromCoords[0].latitude <= this.state.coords[0].latitude ) ||
-                        (doc.data().chain[doc.data().currentIndex].coords[0].latitude <= this.state.coords[0].latitude && doc.data().fromCoords[0].latitude >= this.state.coords[0].latitude )
+                            (doc.data().chain[doc.data().currentIndex].coords[0].latitude >= this.state.coords[0].latitude - diff && doc.data().fromCoords[0].latitude <= this.state.coords[0].latitude + diff) ||
+                        (doc.data().chain[doc.data().currentIndex].coords[0].latitude <= this.state.coords[0].latitude + diff && doc.data().fromCoords[0].latitude >= this.state.coords[0].latitude - diff)
                         ) && (
-                            (doc.data().chain[doc.data().currentIndex].coords[0].longitude >= this.state.coords[0].longitude && doc.data().fromCoords[0].longitude <= this.state.coords[0].longitude ) ||
-                        (doc.data().chain[doc.data().currentIndex].coords[0].longitude <= this.state.coords[0].longitude && doc.data().fromCoords[0].longitude >= this.state.coords[0].longitude )
+                            (doc.data().chain[doc.data().currentIndex].coords[0].longitude >= this.state.coords[0].longitude - diff && doc.data().fromCoords[0].longitude <= this.state.coords[0].longitude + diff) ||
+                        (doc.data().chain[doc.data().currentIndex].coords[0].longitude <= this.state.coords[0].longitude + diff && doc.data().fromCoords[0].longitude >= this.state.coords[0].longitude - diff)
                         )
                     ){
                         requests.push({...doc.data(), ...{id: doc.id}});
