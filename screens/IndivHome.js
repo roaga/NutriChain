@@ -54,11 +54,14 @@ export default class IndivHome extends React.Component {
     }
 
     componentDidMount(){
+        this.setState({email: firebase.auth().currentUser.email});
         firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
             let requests = [];
             snapshot.forEach(function (doc) {
-                requests.push({...doc.data(), ...{id: doc.id}});
-            });
+                if(doc.data().chain.filter(item => item.email == this.state.email).length < 1){
+                    requests.push({...doc.data(), ...{id: doc.id}});
+                }
+            }.bind(this));
             this.setState({orders: requests});
         }.bind(this));
 

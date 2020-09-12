@@ -41,18 +41,17 @@ export default class OrderModal extends React.Component {
     placeOrder = (meal) => {
         //Place Order
         let uemail = firebase.auth().currentUser.email;
-        
-                 firebase.firestore().collection('requests').add({
-                    chain: [{name: this.props.bank.name,
-                        email: "atlfoodbank@gmail.com",
-                        address: this.props.bank.address,
-                    }],
-                    from: firebase.auth().currentUser.email,
-                    isChainComplete: false, 
-                    isOrderProcessed: false,
-                    mealPlan: meal,
-                    currentIndex: 0
-                })
+        firebase.firestore().collection('requests').add({
+            chain: [{name: this.props.bank.name,
+                email: "atlfoodbank@gmail.com",
+                address: this.props.bank.address,
+            }],
+            from: firebase.auth().currentUser.email,
+            isChainComplete: false, 
+            isOrderProcessed: false,
+            mealPlan: meal,
+            currentIndex: 0
+        })
         this.props.closeModal();
         this.props.closeOld();
     }

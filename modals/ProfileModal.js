@@ -123,7 +123,7 @@ export default class ProfileModal extends React.Component {
 
                 {true ? // if user is an individual
                     <View>
-                        <Text style={[styles.subtitle]}>Current Order</Text>                        
+                        <Text style={[styles.subtitle]}>Active Orders</Text>                        
                         <FlatList
                             data={this.state.orders}
                             style={{marginHorizontal: 32, maxHeight: 400}}
@@ -134,7 +134,7 @@ export default class ProfileModal extends React.Component {
                         />
 
 
-                        <Text style={[styles.subtitle]}>Current Pickup</Text>
+                        <Text style={[styles.subtitle]}>Active Pickups</Text>
                         <FlatList
                             data={this.state.pickups}
                             style={{marginHorizontal: 32, maxHeight: 400}}
