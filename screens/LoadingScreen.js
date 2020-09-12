@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
 
 let isFoodBank = function (user) {
     firebase.firestore().collection("users").doc(user.email).get().then(function(doc) {
-        console.log(doc.data().toString());
         if (doc.exists) {
             return doc.data().isFoodBank;
         } else {
