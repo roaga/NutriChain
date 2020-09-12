@@ -53,7 +53,7 @@ class IndivOrderCard extends React.Component {
 
                 
                 //remove from Nearby Pickups
-                //this.props.removeOrderLocally(this.props.order.id);
+                this.props.removeOrderLocally(this.props.order.id);
               }}
             ],
             { cancelable: false }
