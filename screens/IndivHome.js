@@ -33,6 +33,7 @@ class IndivOrderCard extends React.Component {
                         let uname = doc.data().name;
                         let uaddress = doc.data().address;
                         let uemail = firebase.auth().currentUser.email;
+                        let ucoords = doc.data().coords;
                         orderref.get().then(function(doc){
                             if(doc.exists){
                                 let uchain = doc.data().chain;
@@ -40,7 +41,8 @@ class IndivOrderCard extends React.Component {
                                 uchain.push({
                                     name: uname,
                                     email: uemail,
-                                    address: uaddress
+                                    address: uaddress,
+                                    coords: ucoords
                                 })
                                 // let newindex = doc.data().currentIndex + 1;
                                 orderref.update({chain: uchain, currentIndex: currentIndex})
