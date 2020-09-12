@@ -129,10 +129,8 @@ export default class IndivHome extends React.Component {
         this.setState({email: firebase.auth().currentUser.email});
         await firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function (doc) {
             if (doc.exists) {
-                let coords = doc.data().coords;
-                this.setState({coords: coords});
-                let address = doc.data().address;
-                this.setState({address: address});
+                this.setState({coords: doc.data().coords});
+                this.setState({address: doc.data().address});
             }
         }.bind(this));
 
