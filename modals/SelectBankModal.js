@@ -2,6 +2,7 @@ import React from 'react'
 import {View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, Modal} from 'react-native'
 import * as firebase from 'firebase'
 import {Ionicons} from '@expo/vector-icons'
+import * as Animatable from 'react-native-animatable';
 
 import styles from "../Styles"
 import {colors} from "../Styles"
@@ -43,7 +44,7 @@ class BankCard extends React.Component {
 
     render () {
         return (
-            <View style={styles.card}>
+            <View style={styles.card} animation="slideInUp" duration={500}>
                 <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.props.bank.name}</Text>
                 <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>{this.props.bank.address}</Text>
                 <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Meals: {this.props.bank.bundles.join(", ")}</Text>

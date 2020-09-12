@@ -1,4 +1,5 @@
 import {createAppContainer, createSwitchNavigator} from 'react-navigation'
+import {YellowBox} from 'react-native'
 import {createStackNavigator} from 'react-navigation-stack'
 import * as firebase from 'firebase'
 
@@ -19,6 +20,9 @@ var firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
+
+// Suppress warnings
+YellowBox.ignoreWarnings(['']);
 
 const BankStack = createStackNavigator({
     Home: {

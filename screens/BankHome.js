@@ -2,6 +2,7 @@ import React from 'react'
 import {View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, Modal} from 'react-native'
 import * as firebase from 'firebase'
 import {Ionicons} from '@expo/vector-icons'
+import * as Animatable from 'react-native-animatable';
 
 import styles from "../Styles"
 import {colors} from "../Styles"
@@ -19,7 +20,7 @@ class BankOrderCard extends React.Component {
         let courierAddress = this.props.order.chain.length > 1 ? this.props.order.chain[1].address : "Searching...";
 
         return (
-            <View style={styles.card}>
+            <Animatable.View style={styles.card} animation="slideInUp" duration={500}>
                 <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.props.order.mealPlan}</Text>
                 <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Courier: {courierName}</Text>
 
@@ -33,7 +34,7 @@ class BankOrderCard extends React.Component {
                         <Ionicons name={this.state.pickedUp ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
                     </TouchableOpacity> */}
                 </View>
-            </View>
+            </Animatable.View>
         );
     }
 }
@@ -86,10 +87,15 @@ export default class BankHome extends React.Component {
         }
         return(
             <View style={styles.container}>
-                <Text style={[styles.greeting, {color: colors.primary}]}>NutriChain</Text>
+                <View style={{backgroundColor: "#fff", width: "100%", paddingBottom: 16}}>
+                    <Text style={[styles.greeting, {color: colors.primary}]}>NutriChain</Text>
+                </View>
 
                 <TouchableOpacity style={[styles.button, {marginVertical: 32}]} onPress={() => this.toggleProfileModal()}>
-                    <Text style={styles.buttonText}>Food Bank Info {'>'}</Text>
+                    <View style={{flexDirection: "row"}}>
+                        <Ionicons name="md-list-box" size={32} color="#fff" style={{justifyContent: "center", marginRight: 8}} size={24}/>
+                        <Text style={styles.buttonText}>Food Bank Info</Text>
+                    </View>
                 </TouchableOpacity>
 
                 <Text style={styles.subtitle}>Orders</Text>

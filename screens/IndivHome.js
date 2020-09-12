@@ -2,6 +2,7 @@ import React from 'react'
 import {View, Text, StyleSheet, TouchableOpacity, ScrollView, TextInput, FlatList, ActivityIndicator, Modal, Alert} from 'react-native'
 import * as firebase from 'firebase'
 import {Ionicons} from '@expo/vector-icons'
+import * as Animatable from 'react-native-animatable';
 
 import styles from "../Styles"
 import {colors} from "../Styles"
@@ -92,12 +93,8 @@ class IndivOrderCard extends React.Component {
         }.bind(this));
     }
     render () {
-        /*let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
-        let holderName = this.props.order.chain[this.props.order.chain.length - 1].name;
-        let holderAddress = this.props.order.chain[this.props.order.chain.length - 1].address;
-        */
        return (
-        <View style={styles.card}>
+        <Animatable.View style={styles.card} animation="slideInUp" duration={500}>
             <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.state.holderAddress}</Text>
             <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Holder: {this.state.holderName}</Text>
 
@@ -107,7 +104,7 @@ class IndivOrderCard extends React.Component {
                     <Ionicons name={this.state.pickedUp ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
                 </TouchableOpacity>
             </View>
-        </View>
+        </Animatable.View>
     );
         
     }
@@ -195,14 +192,22 @@ export default class IndivHome extends React.Component {
 
         return(
             <View style={styles.container}>
-                <Text style={[styles.greeting, {color: colors.primary}]}>NutriChain</Text>
+                <View style={{backgroundColor: "#fff", width: "100%", paddingBottom: 16}}>
+                    <Text style={[styles.greeting, {color: colors.primary}]}>NutriChain</Text>
+                </View>
 
                 <TouchableOpacity style={[styles.button, {marginTop: 32}]} onPress={() => this.toggleProfileModal()}>
-                    <Text style={styles.buttonText}>Your Info {'>'}</Text>
+                    <View style={{flexDirection: "row"}}>
+                        <Ionicons name="md-list-box" size={32} color="#fff" style={{justifyContent: "center", marginRight: 8}} size={24}/>
+                        <Text style={styles.buttonText}>Your Info</Text>
+                    </View>
                 </TouchableOpacity>
 
                 <TouchableOpacity style={[styles.button, {marginTop: 16, marginBottom: 32}]} onPress={() => this.toggleSelectBankModal()}>
-                    <Text style={styles.buttonText}>Order Food {'>'}</Text>
+                <View style={{flexDirection: "row"}}>
+                        <Ionicons name="ios-nutrition" size={32} color="#fff" style={{justifyContent: "center", marginRight: 8}} size={24}/>
+                        <Text style={styles.buttonText}>Order Food</Text>
+                    </View>
                 </TouchableOpacity>
 
                 <Text style={styles.subtitle}>Nearby Pickups</Text>
