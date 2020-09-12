@@ -22,7 +22,7 @@ class IndivPickupCard extends React.Component {
         this.setState({readyForPickUp: !this.state.readyForPickUp});
         const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
         let uemail = firebase.auth().currentUser.email;
-        orderref.get().then(function(doc){
+        orderref.onSnapshot(function(doc){
             if(doc.exists){
                 let stops = doc.data().chain.length - 1;
                 let currentIndex = doc.data().currentIndex;
@@ -45,7 +45,7 @@ class IndivPickupCard extends React.Component {
 
     componentDidMount(){
         const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
-        orderref.get().then(function(doc){
+        orderref.onSnapshot(function(doc){
             let holder = doc.data().chain[doc.data().currentIndex];
             if(doc.data().chain.length>1){
                 if(doc.data().currentIndex < doc.data().chain.length - 1){
@@ -107,7 +107,7 @@ class IndivOrderCard extends React.Component {
     }
     componentDidMount(){
         const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
-        orderref.get().then(function(doc){
+        orderref.onSnapshot(function(doc){
             let holder = doc.data().chain[doc.data().currentIndex];
             if(doc.data().chain.length>1){
                 if(doc.data().currentIndex < doc.data().chain.length - 1){
@@ -156,7 +156,7 @@ export default class ProfileModal extends React.Component {
     componentDidMount () {
         let email = firebase.auth().currentUser.email;
         if (email != undefined) {
-            firebase.firestore().collection("users").doc(email).get().then(function (doc) {
+            firebase.firestore().collection("users").doc(email).onSnapshot(function (doc) {
                 if (doc.exists) {
                     let name = doc.data().name;
                     let address = doc.data().address;
