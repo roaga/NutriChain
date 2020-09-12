@@ -142,11 +142,11 @@ export default class IndivHome extends React.Component {
                     if((doc.data().chain.filter(item => item.email == this.state.email).length < 1 && doc.data().chain.filter(item => item.email == doc.data().from).length < 1)
                         && 
                         (
-                            (item.chain[item.currentIndex].latitude > this.state.coords.latitude && item.fromAddress.latitude < this.state.coords.latitude ) ||
-                        (item.chain[item.currentIndex].latitude < this.state.coords.latitude && item.fromAddress.latitude > this.state.coords.latitude )
+                            (item.chain[item.currentIndex][0].latitude > this.state.coords[0].latitude && item.fromAddress[0].latitude < this.state.coords[0].latitude ) ||
+                        (item.chain[item.currentIndex][0].latitude < this.state.coords[0].latitude && item.fromAddress[0].latitude > this.state.coords[0].latitude )
                         ) && (
-                            (item.chain[item.currentIndex].longitude > this.state.coords.longitude && item.fromAddress.longitude < this.state.coords.longitude ) ||
-                        (item.chain[item.currentIndex].longitude < this.state.coords.longitude && item.fromAddress.longitude > this.state.coords.longitude )
+                            (item.chain[item.currentIndex][0].longitude > this.state.coords[0].longitude && item.fromAddress[0].longitude < this.state.coords[0].longitude ) ||
+                        (item.chain[item.currentIndex][0].longitude < this.state.coords[0].longitude && item.fromAddress[0].longitude > this.state.coords[0].longitude )
                         )
                     ){
                         requests.push({...doc.data(), ...{id: doc.id}});
