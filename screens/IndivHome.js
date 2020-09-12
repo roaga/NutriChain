@@ -91,6 +91,12 @@ export default class IndivHome extends React.Component {
         firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
             snapshot.forEach(function (doc) {
                 console.log(doc.data());
+                firebase.firestore().collection("users").doc(doc.data().from).get().then(function(d) {
+                    if (d.exists) {
+                        let address = d.data().address;
+                        console.log(address);
+                    }
+                })
             });
         });
     }
