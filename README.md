@@ -45,4 +45,4 @@ There are several features that we would like to develop in the future for Nutri
 
 ### More Information
 ---------------------
-For more information, please view our [presentation](https://gtvault-my.sharepoint.com/:p:/g/personal/aveerappan8_gatech_edu/EZOoYldBydVLjBT41Sl8hkwB7Cl22TUj6seIfZnMcBkWPA?e=IPdpVL), our [DevPost](https://devpost.com/software/nutrichain) repository, and our [YouTube](https://youtu.be/yAM7QvJYbwg) demo. 
+For more information, please view our [presentation](https://gtvault-my.sharepoint.com/:p:/g/personal/aveerappan8_gatech_edu/EZOoYldBydVLjBT41Sl8hkwB7Cl22TUj6seIfZnMcBkWPA?e=IPdpVL), our [devPost](https://devpost.com/software/nutrichain) listing, and our [YouTube](https://youtu.be/yAM7QvJYbwg) demo. 
