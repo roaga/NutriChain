@@ -36,7 +36,6 @@ class IndivOrderCard extends React.Component {
                 firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function(doc) {
                     if (doc.exists) {
                         let uname = doc.data().Name;
-                        console.log(doc.data().name);
                         let uaddress = doc.data().address;
                         let uemail = firebase.auth().currentUser.email;
                         //let points = doc.data().points;
