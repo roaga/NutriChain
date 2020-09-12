@@ -11,6 +11,10 @@ class IndivPickupCard extends React.Component {
         readyForPickUp: false,
     }
 
+    markReady = () => {
+        this.setState({readyForPickUp: !this.state.readyForPickUp});
+    }
+
     render () {
         let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
         let holderName = this.props.order.chain[this.props.order.chain.length - 1].name;
@@ -27,7 +31,7 @@ class IndivPickupCard extends React.Component {
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
                     <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>I've picked up the order</Text>
-                    <TouchableOpacity onPress={() => this.setState({readyForPickUp: !this.state.readyForPickUp})}>
+                    <TouchableOpacity onPress={() => this.markReady()}>
                         <Ionicons name={this.state.readyForPickUp ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
                     </TouchableOpacity>
                 </View>
