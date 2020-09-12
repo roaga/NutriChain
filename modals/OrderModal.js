@@ -27,7 +27,7 @@ class MealCard extends React.Component {
     }
 }
 
-export default class OrderModal extends React.Component {
+    export default class OrderModal extends React.Component {
     state = {
         meals: this.props.bank.bundles
     }
