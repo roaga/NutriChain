@@ -61,14 +61,6 @@ class IndivOrderCard extends React.Component {
     }
 
     render () {
-        const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
-        orderref.get().then(function(doc){
-            let holder = doc.data().chain[doc.data().currentIndex];
-            console.log(holder.address);
-            this.setState({holderEmail: holder.email});
-            this.setState({holderName: holder.name});
-            this.setState({holderAddress: holder.address});                
-        }.bind(this))
         /*let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
         let holderName = this.props.order.chain[this.props.order.chain.length - 1].name;
         let holderAddress = this.props.order.chain[this.props.order.chain.length - 1].address;
@@ -101,6 +93,13 @@ export default class IndivHome extends React.Component {
     }
 
     componentDidMount(){
+        const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
+        orderref.get().then(function(doc){
+            let holder = doc.data().chain[doc.data().currentIndex];
+            this.setState({holderEmail: holder.email});
+            this.setState({holderName: holder.name});
+            this.setState({holderAddress: holder.address});        
+       }.bind(this))
         this.setState({email: firebase.auth().currentUser.email});
         firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
             let requests = [];
