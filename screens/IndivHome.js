@@ -99,9 +99,9 @@ class IndivOrderCard extends React.Component {
             <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Holder: {this.state.holderName}</Text>
 
             <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
-                <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>I'll pick this up</Text>
+                <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16, fontWeight: "700"}]}>I'll pick this up</Text>
                 <TouchableOpacity onPress={() => this.addToChain()}>
-                    <Ionicons name={this.state.pickedUp ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
+                    <Ionicons name={this.state.pickedUp ? "md-square" : "md-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
                 </TouchableOpacity>
             </View>
         </Animatable.View>
@@ -210,7 +210,7 @@ export default class IndivHome extends React.Component {
                     </View>
                 </TouchableOpacity>
 
-                <Text style={[styles.subtitle, {borderBottomWidth: 4, borderRadius: 10, paddingBottom: 16, borderColor: colors.primary}]}>Nearby Pickups</Text>
+                <Text style={[styles.subtitle, {borderBottomWidth: 4, borderRadius: 10, paddingBottom: 16, borderColor: colors.primary, fontWeight: "700"}]}>Nearby Pickups</Text>
 
                 <FlatList
                     data={this.state.orders}

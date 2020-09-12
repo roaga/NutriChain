@@ -21,7 +21,7 @@ class MealCard extends React.Component {
             <Animatable.View style={styles.card} animation="slideInUp" duration={500}>
                 <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.props.meal}</Text>
                 <TouchableOpacity style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16, right: 16}} onPress={() => this.props.placeOrder(this.props.meal)}>
-                    <Text style={{color: colors.primary}}>Order {'>'}</Text>
+                    <Ionicons name="md-arrow-round-forward" size={32} color={colors.primary}/>
                 </TouchableOpacity>
             </Animatable.View>
         );
@@ -116,7 +116,7 @@ class MealCard extends React.Component {
         return (
             <View style={[styles.container, {backgroundColor: "rgba(247, 247, 247, 1)"}]}>
                 <TouchableOpacity style={{position: "absolute", top: 16, right: 16}} onPress={() => this.props.closeModal()}>
-                    <Ionicons name="md-close" size={42} color="#000000"/>
+                    <Ionicons name="md-close" size={32} color="#000000"/>
                 </TouchableOpacity>
 
                 <Text style={styles.greeting}>Choose a Meal</Text>

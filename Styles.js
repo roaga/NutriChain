@@ -12,7 +12,7 @@ export default styles = StyleSheet.create({
     },
     subtitle: {
         fontSize: 22,
-        fontWeight: "700",
+        fontWeight: "600",
         textAlign: "center"
     },
     errorMessage: {

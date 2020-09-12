@@ -25,9 +25,9 @@ class BankOrderCard extends React.Component {
                 <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Courier: {courierName}</Text>
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
-                    <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>Prepared</Text>
+                    <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16, fontWeight: "700"}]}>Meal is ready for pickup</Text>
                     <TouchableOpacity onPress={() => this.setState({prepared: !this.state.prepared})}>
-                        <Ionicons name={this.state.prepared ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
+                        <Ionicons name={this.state.prepared ? "md-square" : "md-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
                     </TouchableOpacity>
                     {/* <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>Picked Up</Text>
                     <TouchableOpacity onPress={() => this.setState({pickedUp: !this.state.pickedUp})}>
@@ -98,7 +98,7 @@ export default class BankHome extends React.Component {
                     </View>
                 </TouchableOpacity>
 
-                <Text style={[styles.subtitle, {borderBottomWidth: 4, borderRadius: 10, paddingBottom: 16, borderColor: colors.primary}]}>Orders</Text>
+                <Text style={[styles.subtitle, {borderBottomWidth: 4, borderRadius: 10, paddingBottom: 16, borderColor: colors.primary, fontWeight: "700"}]}>Orders</Text>
 
                 <FlatList
                     data={this.state.orders}

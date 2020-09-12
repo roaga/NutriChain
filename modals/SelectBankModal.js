@@ -49,7 +49,7 @@ class BankCard extends React.Component {
                 <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>{this.props.bank.address}</Text>
                 <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Meals: {this.props.bank.bundles.join(", ")}</Text>
                 <TouchableOpacity style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16, right: 16}} onPress={() => this.toggleOrderModal()}>
-                    <Text style={{color: colors.primary}}>Order {'>'}</Text>
+                    <Ionicons name="md-arrow-round-forward" size={32} color={colors.primary}/>
                 </TouchableOpacity>
 
                 <Modal 
@@ -81,7 +81,7 @@ export default class SelectBankModal extends React.Component {
         return (
             <View style={[styles.container, {backgroundColor: "rgba(247, 247, 247, 1)"}]}>
                 <TouchableOpacity style={{position: "absolute", top: 16, right: 16}} onPress={() => this.props.closeModal()}>
-                    <Ionicons name="md-close" size={42} color="#000000"/>
+                    <Ionicons name="md-close" size={32} color="#000000"/>
                 </TouchableOpacity>
 
                 <Text style={styles.greeting}>Choose a Food Bank</Text>

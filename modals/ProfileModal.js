@@ -74,9 +74,9 @@ class IndivPickupCard extends React.Component {
                 <Text style={[styles.subtitle, {alignSelf: "flex-start", fontSize: 16}]}>{this.state.holderAddress}</Text>
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
-                    <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>I've picked up the order</Text>
+                    <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16, fontWeight: "700"}]}>I've picked up the order</Text>
                     {(!this.state.readyForPickUp && this.state.courierEmail == firebase.auth().currentUser.email) ? <TouchableOpacity onPress={() => this.markReady()}>
-                        <Ionicons name={this.state.readyForPickUp ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
+                        <Ionicons name={this.state.readyForPickUp ? "md-square" : "md-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
                     </TouchableOpacity> : null}
                 </View>
             </Animatable.View>
@@ -196,41 +196,39 @@ export default class ProfileModal extends React.Component {
         return (
             <View style={[styles.container, {backgroundColor: "rgba(247, 247, 247, 1)"}]}>
                 <TouchableOpacity style={{position: "absolute", top: 16, right: 16}} onPress={() => this.props.closeModal()}>
-                    <Ionicons name="md-close" size={42} color="#000000"/>
+                    <Ionicons name="md-close" size={32} color="#000000"/>
                 </TouchableOpacity>
 
                 <Text style={styles.greeting}>{this.state.name}</Text>
-                <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
-                    <Text style={[styles.subtitle, {marginVertical: 32, marginRight: 8, color: colors.primary}]}>{this.state.points}</Text>
+                <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center", marginBottom: 16}}>
+                    <Text style={[styles.subtitle, {marginVertical: 8, paddingRight: 8, color: colors.primary}]}>{this.state.points}</Text>
                     <Ionicons name="md-medal" size={32} color={colors.primary} style={{justifyContent: "center", marginRight: 8}} size={24}/>
                 </View>
 
-                {true ? // if user is an individual
-                    <View>
-                        {/* <Text style={[styles.subtitle, {marginTop: 32}]}>Active Orders</Text>                        
-                        <FlatList
-                            data={this.state.orders}
-                            style={{marginHorizontal: 32, maxHeight: 400}}
-                            showsVerticalScrollIndicator={false}
-                            contentContainerStyle={{paddingBottom: 48}}
-                            keyExtractor={item => item.id}
-                            renderItem={({item}) => this.renderOrderCard(item)}
-                        /> */}
+                <View>
+                    {/* <Text style={[styles.subtitle, {marginTop: 32}]}>Active Orders</Text>                        
+                    <FlatList
+                        data={this.state.orders}
+                        style={{marginHorizontal: 32, maxHeight: 400}}
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{paddingBottom: 48}}
+                        keyExtractor={item => item.id}
+                        renderItem={({item}) => this.renderOrderCard(item)}
+                    /> */}
 
 
-                        <Text style={[styles.subtitle, {borderBottomWidth: 4, borderRadius: 10, paddingBottom: 16, borderColor: colors.primary}]}>Active Orders</Text>
-                        <FlatList
-                            data={this.state.pickups}
-                            style={{marginHorizontal: 32, maxHeight: 400}}
-                            showsVerticalScrollIndicator={false}
-                            contentContainerStyle={{paddingBottom: 48}}
-                            keyExtractor={item => item.id}
-                            renderItem={({item}) => this.renderPickupCard(item)}
-                        />
-                    </View>
-                : null}
+                    <Text style={[styles.subtitle, {borderBottomWidth: 4, borderRadius: 10, paddingBottom: 16, borderColor: colors.primary, fontWeight: "700"}]}>Active Orders</Text>
+                    <FlatList
+                        data={this.state.pickups}
+                        style={{marginHorizontal: 32, maxHeight: 400}}
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{paddingBottom: 48}}
+                        keyExtractor={item => item.id}
+                        renderItem={({item}) => this.renderPickupCard(item)}
+                    />
+                </View>
 
-                <TouchableOpacity style={{alignItems: "center", marginTop: 16}} onPress={() => this.props.signOut()}>
+                <TouchableOpacity style={{alignItems: "center", marginBottom: 32}} onPress={() => this.props.signOut()}>
                     <Text style={{color: colors.primary}}>Sign Out</Text>
                 </TouchableOpacity>
             </View>
