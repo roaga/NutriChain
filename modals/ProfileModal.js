@@ -50,13 +50,30 @@ class IndivOrderCard extends React.Component {
 
 export default class ProfileModal extends React.Component {
     state = {
-        orders: [            {
+        orders: [{
             id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
             bundle: 'Vegetarian',
             holder: "Akash",
             address: "Techwood"
           }],
-        pickups: []
+        pickups: [],
+        name: "",
+        address: ""
+    }
+
+    componentDidMount () {
+        let email = firebase.auth().currentUser.email;
+        if (email != undefined) {
+            firebase.firestore().collection("users").doc(email).get().then(function (doc) {
+                if (doc.exists) {
+                    let name = doc.data().name;
+                    let address = doc.data().address;
+                    console.log(name + " " + address);
+                    this.setState({name: name});
+                    this.setState({address: address});
+                }
+            }.bind(this));
+        }
     }
 
     renderPickupCard = (order) => {
@@ -78,8 +95,8 @@ export default class ProfileModal extends React.Component {
                     <Ionicons name="md-close" size={42} color="#000000"/>
                 </TouchableOpacity>
 
-                <Text style={styles.greeting}>Name</Text>
-                <Text style={[styles.subtitle, {marginVertical: 32}]}>Address</Text>
+                <Text style={styles.greeting}>{this.state.name}</Text>
+                <Text style={[styles.subtitle, {marginVertical: 32}]}>{this.state.address}</Text>
 
                 {true ? // if user is an individual
                     <View>
