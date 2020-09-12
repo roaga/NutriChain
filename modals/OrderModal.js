@@ -41,24 +41,18 @@ export default class OrderModal extends React.Component {
     placeOrder = (meal) => {
         //Place Order
         let uemail = firebase.auth().currentUser.email;
-        firebase.firestore().collection("users").doc(uemail).get().then(function(doc) {
-            if (doc.exists) {
-                 let uname = doc.data().Name;
-                 let uaddress = doc.data().address;
-                    console.log(uname + uaddress);
+        
                  firebase.firestore().collection('requests').add({
-                    chain: [{name: uname,
-                        email: uemail,
-                        address: uaddress,
+                    chain: [{name: this.props.bank.name,
+                        email: "atlfoodbank@gmail.com",
+                        address: this.props.bank.address,
                     }],
-                    from: uemail,
+                    from: firebase.auth().currentUser.email,
                     isChainComplete: false, 
                     isOrderProcessed: false,
-                    mealPlan: meal
+                    mealPlan: meal,
+                    currentIndex: 0
                 })
-            } 
-        })
-
         this.props.closeModal();
         this.props.closeOld();
     }
@@ -84,3 +78,8 @@ export default class OrderModal extends React.Component {
         );
     }
 }
+/*firebase.firestore().collection("users").doc(uemail).get().then(function(doc) {
+    if (doc.exists) {
+        let uname = doc.data().Name;
+        let uaddress = doc.data().address;
+        */
