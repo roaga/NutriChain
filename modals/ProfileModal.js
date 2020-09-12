@@ -173,7 +173,7 @@ export default class ProfileModal extends React.Component {
                     // if(doc.data().from == email) {
                     //     orders.push({...doc.data(), ...{id: doc.id}});
                     // } else 
-                    if ((doc.data().from == email || doc.data().chain.filter(obj => obj.email == email).length > 0) && doc.data().chain.map(item => item.email).indexOf(email) >= doc.data().currentIndex){
+                    if ((doc.data().from == email || doc.data().chain.filter(obj => obj.email == email).length > 0) && (doc.data().chain.map(item => item.email).indexOf(email) >= doc.data().currentIndex || doc.data().chain.map(item => item.email).indexOf(email) < 0)){
                         pickups.push({...doc.data(), ...{id: doc.id}});
                     }
                 });
