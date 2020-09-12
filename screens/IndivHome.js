@@ -210,7 +210,7 @@ export default class IndivHome extends React.Component {
                     </View>
                 </TouchableOpacity>
 
-                <Text style={styles.subtitle}>Nearby Pickups</Text>
+                <Text style={[styles.subtitle, {borderBottomWidth: 4, borderRadius: 10, paddingBottom: 16, borderColor: colors.primary}]}>Nearby Pickups</Text>
 
                 <FlatList
                     data={this.state.orders}

@@ -98,7 +98,7 @@ export default class BankHome extends React.Component {
                     </View>
                 </TouchableOpacity>
 
-                <Text style={styles.subtitle}>Orders</Text>
+                <Text style={[styles.subtitle, {borderBottomWidth: 4, borderRadius: 10, paddingBottom: 16, borderColor: colors.primary}]}>Orders</Text>
 
                 <FlatList
                     data={this.state.orders}

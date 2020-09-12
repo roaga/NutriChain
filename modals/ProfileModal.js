@@ -201,8 +201,8 @@ export default class ProfileModal extends React.Component {
 
                 <Text style={styles.greeting}>{this.state.name}</Text>
                 <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
-                    <Text style={[styles.subtitle, {marginVertical: 32, marginRight: 8}]}>{this.state.points}</Text>
-                    <Ionicons name="md-medal" size={32} color="#000000" style={{justifyContent: "center", marginRight: 8}} size={24}/>
+                    <Text style={[styles.subtitle, {marginVertical: 32, marginRight: 8, color: colors.primary}]}>{this.state.points}</Text>
+                    <Ionicons name="md-medal" size={32} color={colors.primary} style={{justifyContent: "center", marginRight: 8}} size={24}/>
                 </View>
 
                 {true ? // if user is an individual
@@ -218,7 +218,7 @@ export default class ProfileModal extends React.Component {
                         /> */}
 
 
-                        <Text style={[styles.subtitle]}>Active Orders</Text>
+                        <Text style={[styles.subtitle, {borderBottomWidth: 4, borderRadius: 10, paddingBottom: 16, borderColor: colors.primary}]}>Active Orders</Text>
                         <FlatList
                             data={this.state.pickups}
                             style={{marginHorizontal: 32, maxHeight: 400}}
