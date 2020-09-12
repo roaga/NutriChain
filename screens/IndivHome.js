@@ -9,8 +9,12 @@ import ProfileModal from "../modals/ProfileModal"
 import SelectBankModal from '../modals/SelectBankModal'
 
 class IndivOrderCard extends React.Component {
+
     state = {
         pickedUp: false,
+        holderAddress: "",
+        holderEmail: "",
+        holderName: ""
     }
 
     addToChain = () => {
@@ -28,12 +32,14 @@ class IndivOrderCard extends React.Component {
 
                 //add to chain
                 const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
+                let uemail = firebase.auth().currentUser.email;
                 firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function(doc) {
                     if (doc.exists) {
                         let uname = doc.data().name;
                         let uaddress = doc.data().address;
                         let uemail = firebase.auth().currentUser.email;
                         let ucoords = doc.data().coords;
+                        //let points = doc.data().points;
                         orderref.get().then(function(doc){
                             if(doc.exists){
                                 let uchain = doc.data().chain;
@@ -45,11 +51,28 @@ class IndivOrderCard extends React.Component {
                                     coords: ucoords
                                 })
                                 // let newindex = doc.data().currentIndex + 1;
-                                orderref.update({chain: uchain, currentIndex: currentIndex})
+                                orderref.update({chain: uchain, currentIndex: currentIndex});
+                                
+                                
                             }
-                        })
+                        });
+                        if (doc.data().from == firebase.auth().currentUser.email) { 
+                            let currentIndex = doc.data().currentIndex;
+                            firebase.firestore().collection("archives").add(doc.data()); // add data to archives
+                            orderref.delete(); // delete data from requests
+                            firebase.firestore().collection('users').doc(firebase.auth().currentUser.email).get().then(function(doc) {
+                                if (doc.exists) {
+                                    let points = doc.data().points;
+                                    console.log(points);
+                                    points = 100 / (currentIndex + 1) + points;
+                                    firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).update({points: points});
+                                }
+                            });
+                        }
                     }
-                })
+                });
+
+                
                 //remove from Nearby Pickups
                 this.props.removeOrderLocally(this.props.order.id);
               }}
@@ -57,25 +80,36 @@ class IndivOrderCard extends React.Component {
             { cancelable: false }
           );
     }
-
+    componentDidMount(){
+        const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
+        orderref.onSnapshot(function(doc){
+            if (doc.exists && doc.data() != undefined) {
+                let holder = doc.data().chain[doc.data().currentIndex];
+                this.setState({holderEmail: holder.email});
+                this.setState({holderName: holder.name});
+                this.setState({holderAddress: holder.address});    
+            }    
+        }.bind(this));
+    }
     render () {
-        let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
+        /*let holderEmail = this.props.order.chain[this.props.order.chain.length - 1].email;
         let holderName = this.props.order.chain[this.props.order.chain.length - 1].name;
         let holderAddress = this.props.order.chain[this.props.order.chain.length - 1].address;
+        */
+       return (
+        <View style={styles.card}>
+            <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{this.state.holderAddress}</Text>
+            <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Holder: {this.state.holderName}</Text>
 
-        return (
-            <View style={styles.card}>
-                <Text style={[styles.subtitle, {alignSelf: "flex-start"}]}>{holderAddress}</Text>
-                <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Holder: {holderName}</Text>
-
-                <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
-                    <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>I'll pick this up</Text>
-                    <TouchableOpacity onPress={() => this.addToChain()}>
-                        <Ionicons name={this.state.pickedUp ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
-                    </TouchableOpacity>
-                </View>
+            <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
+                <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>I'll pick this up</Text>
+                <TouchableOpacity onPress={() => this.addToChain()}>
+                    <Ionicons name={this.state.pickedUp ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
+                </TouchableOpacity>
             </View>
-        );
+        </View>
+    );
+        
     }
 }
 
@@ -87,6 +121,8 @@ export default class IndivHome extends React.Component {
         profileModalVisible: false,
         selectBankModalVisible: false,
         orders: [],
+        address: "",
+        coords: []
     }
 
     componentDidMount(){
@@ -95,25 +131,31 @@ export default class IndivHome extends React.Component {
             if (doc.exists) {
                 let coords = doc.data().coords;
                 this.setState({coords: coords});
+                let address = doc.data().address;
+                this.setState({address: address});
             }
         }.bind(this));
         firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
             let requests = [];
             snapshot.forEach(function (doc) {
-                if(doc.data().chain.filter(item => ((item.email == this.state.email).length < 1
-                    && 
-                    ((item.chain[item.currentIndex].latitude > this.state.coords.latitude && item.fromAddress.latitude < this.state.coords.latitude ) ||
-                    (item.chain[item.currentIndex].latitude < this.state.coords.latitude && item.fromAddress.latitude > this.state.coords.latitude )) &&
-                    ((item.chain[item.currentIndex].longitude > this.state.coords.longitude && item.fromAddress.longitude < this.state.coords.longitude ) ||
-                    (item.chain[item.currentIndex].longitude < this.state.coords.longitude && item.fromAddress.longitude > this.state.coords.longitude ))
-                    )
-                )){
-                    requests.push({...doc.data(), ...{id: doc.id}});
+                if (doc.exists && doc.data() != undefined) {
+                    if((doc.data().chain.filter(item => item.email == this.state.email).length < 1 && doc.data().chain.filter(item => item.email == doc.data().from).length < 1)
+                        && 
+                        (
+                            (item.chain[item.currentIndex].latitude > this.state.coords.latitude && item.fromAddress.latitude < this.state.coords.latitude ) ||
+                        (item.chain[item.currentIndex].latitude < this.state.coords.latitude && item.fromAddress.latitude > this.state.coords.latitude )
+                        ) && (
+                            (item.chain[item.currentIndex].longitude > this.state.coords.longitude && item.fromAddress.longitude < this.state.coords.longitude ) ||
+                        (item.chain[item.currentIndex].longitude < this.state.coords.longitude && item.fromAddress.longitude > this.state.coords.longitude )
+                        )
+                    ){
+                        requests.push({...doc.data(), ...{id: doc.id}});
+                    }
                 }
             }.bind(this));
             this.setState({orders: requests});
         }.bind(this));
-
+        
         this.setState({loading: false});
     }
 
@@ -150,9 +192,10 @@ export default class IndivHome extends React.Component {
                 </View>
             )
         }
+
         return(
             <View style={styles.container}>
-                <Text style={styles.greeting}>App Name</Text>
+                <Text style={[styles.greeting, {color: colors.primary}]}>NutriChain</Text>
 
                 <TouchableOpacity style={[styles.button, {marginTop: 32}]} onPress={() => this.toggleProfileModal()}>
                     <Text style={styles.buttonText}>Your Info {'>'}</Text>
@@ -185,7 +228,7 @@ export default class IndivHome extends React.Component {
                     visible={this.state.selectBankModalVisible} 
                     onRequestClose={() => this.toggleSelectBankModal()}
                 >
-                    <SelectBankModal closeModal={() => this.toggleSelectBankModal()}/>
+                    <SelectBankModal closeModal={() => this.toggleSelectBankModal()} address={this.state.address}/>
                 </Modal>
             </View>
         )
