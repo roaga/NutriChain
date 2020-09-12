@@ -20,6 +20,7 @@ class IndivPickupCard extends React.Component {
     markReady = () => {
         this.setState({readyForPickUp: !this.state.readyForPickUp});
     }
+    
     componentDidMount(){
         const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
         orderref.get().then(function(doc){
@@ -114,10 +115,7 @@ class IndivOrderCard extends React.Component {
                 <Text style={[styles.subtitle, {fontSize: 16, alignSelf: "flex-start"}]}>Holder: {this.state.holderName}</Text>
 
                 <View style={{flexDirection: "row", alignSelf: "flex-end", marginTop: 8, position: "absolute", bottom: 16}}>
-                    <Text style={[styles.subtitle, {marginHorizontal : 32, fontSize: 16}]}>Pick up your order from dashboard when convenient.</Text>
-                    <TouchableOpacity onPress={() => this.endChain()}>
-                        <Ionicons name={this.state.chainEnded ? "ios-square" : "ios-square-outline"} size={24} color={colors.primary} style={{width: 32}} />
-                    </TouchableOpacity>
+                    <Text style={[styles.subtitle, {marginRight : 32, fontSize: 16, textAlign: "right"}]}>Pick up your order when convenient.</Text>
                 </View>
             </View>
         );
@@ -129,7 +127,8 @@ export default class ProfileModal extends React.Component {
         orders: [],
         pickups: [],
         name: "",
-        address: ""
+        address: "",
+        points: 0
     }
 
     componentDidMount () {
@@ -141,6 +140,7 @@ export default class ProfileModal extends React.Component {
                     let address = doc.data().address;
                     this.setState({name: name});
                     this.setState({address: address});
+                    this.setState({points: doc.data().points})
                 }
             }.bind(this));
 
@@ -157,6 +157,7 @@ export default class ProfileModal extends React.Component {
                 this.setState({orders: orders});
                 this.setState({pickups: pickups})
             }.bind(this));
+
         }
     }
 
@@ -180,11 +181,11 @@ export default class ProfileModal extends React.Component {
                 </TouchableOpacity>
 
                 <Text style={styles.greeting}>{this.state.name}</Text>
-                <Text style={[styles.subtitle, {marginVertical: 32}]}>{this.state.address}</Text>
+                <Text style={[styles.subtitle, {marginVertical: 32}]}>{this.state.points} Points</Text>
 
                 {true ? // if user is an individual
                     <View>
-                        <Text style={[styles.subtitle]}>Active Orders</Text>                        
+                        <Text style={[styles.subtitle, {marginTop: 32}]}>Active Orders</Text>                        
                         <FlatList
                             data={this.state.orders}
                             style={{marginHorizontal: 32, maxHeight: 400}}
