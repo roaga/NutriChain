@@ -125,16 +125,15 @@ export default class IndivHome extends React.Component {
         coords: []
     }
 
-    componentDidMount(){
+    async componentDidMount(){
         this.setState({email: firebase.auth().currentUser.email});
-        firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function (doc) {
+        await firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function (doc) {
             if (doc.exists) {
-                let coords = doc.data().coords;
-                this.setState({coords: coords});
-                let address = doc.data().address;
-                this.setState({address: address});
+                this.setState({coords: doc.data().coords});
+                this.setState({address: doc.data().address});
             }
         }.bind(this));
+
         firebase.firestore().collection("requests").onSnapshot(function(snapshot) {
             let requests = [];
             snapshot.forEach(function (doc) {
@@ -142,11 +141,11 @@ export default class IndivHome extends React.Component {
                     if((doc.data().chain.filter(item => item.email == this.state.email).length < 1 && doc.data().chain.filter(item => item.email == doc.data().from).length < 1)
                         && 
                         (
-                            (doc.data().chain[doc.data().currentIndex].coords[0].latitude > this.state.coords[0].latitude && doc.data().fromCoords[0].latitude < this.state.coords[0].latitude ) ||
-                        (doc.data().chain[doc.data().currentIndex].coords[0].latitude < this.state.coords[0].latitude && doc.data().fromCoords[0].latitude > this.state.coords[0].latitude )
+                            (doc.data().chain[doc.data().currentIndex].coords[0].latitude >= this.state.coords[0].latitude && doc.data().fromCoords[0].latitude <= this.state.coords[0].latitude ) ||
+                        (doc.data().chain[doc.data().currentIndex].coords[0].latitude <= this.state.coords[0].latitude && doc.data().fromCoords[0].latitude >= this.state.coords[0].latitude )
                         ) && (
-                            (doc.data().chain[doc.data().currentIndex].coords[0].longitude > this.state.coords[0].longitude && doc.data().fromCoords[0].longitude < this.state.coords[0].longitude ) ||
-                        (doc.data().chain[doc.data().currentIndex].coords[0].longitude < this.state.coords[0].longitude && doc.data().fromCoords[0].longitude > this.state.coords[0].longitude )
+                            (doc.data().chain[doc.data().currentIndex].coords[0].longitude >= this.state.coords[0].longitude && doc.data().fromCoords[0].longitude <= this.state.coords[0].longitude ) ||
+                        (doc.data().chain[doc.data().currentIndex].coords[0].longitude <= this.state.coords[0].longitude && doc.data().fromCoords[0].longitude >= this.state.coords[0].longitude )
                         )
                     ){
                         requests.push({...doc.data(), ...{id: doc.id}});
