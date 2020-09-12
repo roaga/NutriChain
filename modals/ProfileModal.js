@@ -20,6 +20,7 @@ class IndivPickupCard extends React.Component {
     markReady = () => {
         this.setState({readyForPickUp: !this.state.readyForPickUp});
     }
+    
     componentDidMount(){
         const orderref = firebase.firestore().collection('requests').doc(this.props.order.id);
         orderref.get().then(function(doc){
@@ -180,7 +181,7 @@ export default class ProfileModal extends React.Component {
                 </TouchableOpacity>
 
                 <Text style={styles.greeting}>{this.state.name}</Text>
-                {/* <Text style={[styles.subtitle, {marginVertical: 32}]}>{this.state.address}</Text> */}
+                <Text style={[styles.subtitle, {marginVertical: 32}]}>{this.state.points} Points</Text>
 
                 {true ? // if user is an individual
                     <View>
