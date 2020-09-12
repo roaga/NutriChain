@@ -16,6 +16,10 @@ class IndivOrderCard extends React.Component {
     addToChain = () => {
         this.setState({pickedUp: !this.state.pickedUp});
 
+        //add to chain
+
+        //remove from Nearby Pickups
+        this.props.removeOrderLocally(this.props.order.id);
     }
 
     render () {
@@ -61,6 +65,12 @@ export default class IndivHome extends React.Component {
         this.setState({loading: false});
     }
 
+    removeOrderLocally = (id) => {
+        let orders = this.state.orders;
+        let newOrders = orders.filter(order => order.id !== id);
+        this.setState({orders: newOrders});
+    }
+
     signOutUser = () => {
         firebase.auth().signOut();
         this.props.navigation.navigate("Auth");
@@ -68,7 +78,7 @@ export default class IndivHome extends React.Component {
 
     renderCard = (order) => {
         return (
-            <IndivOrderCard order={order}/>
+            <IndivOrderCard order={order} removeOrderLocally={(id) => this.removeOrderLocally(id)}/>
         );
     }
 
