@@ -83,10 +83,11 @@ class MealCard extends React.Component {
                                     if (doc.exists) {
                                         let points = doc.data().points;
                                         firebase.firestore().collection("users").doc(uemail).update({points: points - 100});
-                                        props.closeModal();
-                                        props.closeOld();
                                     }
                                 });
+            
+                                props.closeModal();
+                                props.closeOld();
                           }}
                         ],
                         { cancelable: false }
