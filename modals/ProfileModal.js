@@ -200,7 +200,10 @@ export default class ProfileModal extends React.Component {
                 </TouchableOpacity>
 
                 <Text style={styles.greeting}>{this.state.name}</Text>
-                <Text style={[styles.subtitle, {marginVertical: 32}]}>{this.state.points} Points</Text>
+                <View style={{flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
+                    <Text style={[styles.subtitle, {marginVertical: 32, marginRight: 8}]}>{this.state.points}</Text>
+                    <Ionicons name="md-medal" size={32} color="#000000" style={{justifyContent: "center", marginRight: 8}} size={24}/>
+                </View>
 
                 {true ? // if user is an individual
                     <View>

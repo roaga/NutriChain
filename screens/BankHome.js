@@ -87,10 +87,15 @@ export default class BankHome extends React.Component {
         }
         return(
             <View style={styles.container}>
-                <Text style={[styles.greeting, {color: colors.primary}]}>NutriChain</Text>
+                <View style={{backgroundColor: "#fff", width: "100%", paddingBottom: 16}}>
+                    <Text style={[styles.greeting, {color: colors.primary}]}>NutriChain</Text>
+                </View>
 
                 <TouchableOpacity style={[styles.button, {marginVertical: 32}]} onPress={() => this.toggleProfileModal()}>
-                    <Text style={styles.buttonText}>Food Bank Info {'>'}</Text>
+                    <View style={{flexDirection: "row"}}>
+                        <Ionicons name="md-list-box" size={32} color="#fff" style={{justifyContent: "center", marginRight: 8}} size={24}/>
+                        <Text style={styles.buttonText}>Food Bank Info</Text>
+                    </View>
                 </TouchableOpacity>
 
                 <Text style={styles.subtitle}>Orders</Text>
