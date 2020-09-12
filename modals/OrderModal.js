@@ -50,7 +50,7 @@ class MealCard extends React.Component {
         firebase.firestore().collection("users").doc(firebase.auth().currentUser.email).get().then(function(doc) {
             if (doc.exists) {
                 let points = doc.data().points;
-                if (points > 50) {
+                if (points >= 50) {
                     Alert.alert(
                         "Order Confirmation",
                         "Are you sure you would like to request this meal?",
