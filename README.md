@@ -14,7 +14,7 @@ In 2018 alone, more than 35 million people in the US were food insecure, with ov
 ----------------
 We want to revolutionize how food banks work. We want to open up a new world of volunteer-based doordash for the misfortunate of society. That is exactly what we have done. We present to you NutriChain, a mobile app for practically everyone, both food banks and individuals. A food bank simply registers with their meal plan, and once a particular family/individual places an order, volunteers come together to deliver the food at their convenience while each spending minimal time. This stems from our unique chained delivery system.
 ##### Process
-First, a user orders a meal from a foodbank. The food bank processes the order, waiting for any pick-up requests. Person A issues a pick-up request from their home, picks up the food, and brings it to their home. Person B issues a pick-up request to pick up the food from Person A's home. This chain continues until the chain has reached near the original orderer, at which point they can conveniently pick up their free food. This chaining method allows for delivery over long distances with negligble investment of resources or time from any party, minimizing operating costs and maximizing community impact.
+First, a user orders a meal from a food bank. The food bank processes the order, waiting for any pick-up requests. Person A issues a pick-up request from their home, picks up the food, and brings it to their home. Person B issues a pick-up request to pick up the food from Person A's home. This chain continues until the chain has reached near the original orderer, at which point they can conveniently pick up their free food. This chaining method allows for delivery over long distances with negligble investment of resources or time from any party, minimizing operating costs and maximizing community impact.
 
 ### Challenges 
 --------------------
@@ -32,9 +32,9 @@ We are especially proud of the fact that given two of us didn't know React Nativ
 ### What's Next
 ---------------------
 There are several features that we would like to develop in the future for NutriChain. 
-1. Food bank verification - Verify if a food bank is a valid foodbank with manual expert processing
+1. Food bank verification - Verify if a food bank is a valid food bank with manual expert processing
 2. Priority Chaining - Enhance chaining by presenting the highest priority chain (ie. a chain that is close to completing) over others
-3. Geofencing - Enable geofencing to show requests only to those within a certain radius of the foodbank and of the homes of the intermediaries 
+3. Geofencing - Enable geofencing to show requests only to those within a certain radius of the food bank and of the homes of the intermediaries 
 4. Notifications - Push notifiations through native APIs or Twilio mobile APIs 
 5. Scalable tokens - Modify tokens to proportionally scale with distance taken to deliver 
 6. Estimated time - Provide estimated time order dashboard to finish delivering
